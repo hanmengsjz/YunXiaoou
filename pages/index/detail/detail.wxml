@@ -1,0 +1,46 @@
+<!--pages/index/detail/detail.wxml-->
+<swiper class='swiper' indicator-dots circular autoplay>
+  <view wx:for="{{goodsImg}}" wx:key="{{index}}">
+    <view wx:if="{{item.type == 1}}">
+      <swiper-item>
+        <view class='banner'>
+          <image src="{{item.url}}" class="slide-image" />
+        </view>
+      </swiper-item>
+    </view>
+  </view>
+</swiper>
+<view class='info-box'>
+  <view class='info'>{{detailData.name}}</view>
+  <view class='price'>￥{{detailData.money}}</view>
+  <view class='desc'>{{detailData.describe}}</view>
+</view>
+<view class='count'>
+  <text class='title'>数量</text>
+  <view class='count-box'>
+    <van-stepper value="{{count}}" data-index="{{index}}" bind:change="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
+  </view>
+</view>
+<view class='temperature'>
+  <text class='title'>温度</text>
+  <van-slider value="50" bind:change="onChange" />
+  <view class='temp-box' catchtap='temp'>
+    <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
+    <view class='temp {{temp==2 ? "active" : ""}}' data-temp='2'>常温</view>
+    <view class='temp {{temp==3 ? "active" : ""}}' data-temp='3'>一半冰一半温</view>
+  </view>
+</view>
+<view class='mail'>
+  <text class='title'>由喝小酒儿提供配送服务</text>
+</view>
+<view class='buy'>
+  <view class='add-car' bindtap='addCar' data-id='{{detailData.id}}'>加入购物车</view>
+  <view class='buy-now' bindtap='buyNow'>立即购买</view>
+</view>
+<view class='info-img'>
+  <view wx:for="{{goodsImg}}" wx:key="{{index}}">
+    <view class='banner' wx:if="{{item.type == 2}}">
+      <image src="{{item.url}}" class="slide-image" />
+    </view>
+  </view>
+</view>

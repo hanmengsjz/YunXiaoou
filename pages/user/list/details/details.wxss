@@ -1,0 +1,123 @@
+/* pages/user/list/details/details.wxss */
+.nav-box{
+  width: 100%;
+  height: 140rpx;
+  background: #ffd200;
+  color: #fff;
+  font-size:32rpx;
+  box-sizing: border-box;
+  padding: 20rpx 40rpx; 
+}
+.nav-box image{
+  width: 34rpx;
+  height: 34rpx;
+  float: left;
+  margin-right: 10rpx;
+}
+.nav-box text{
+  float: left;
+  line-height: 32rpx;
+}
+.info-box{
+  width: 90%;
+  margin: 0 auto;
+  height: 180rpx;
+  background: #fff;
+  border-radius:20rpx;
+  position: relative;
+  top: -60rpx; 
+  padding: 15rpx;
+  box-sizing: border-box;
+  box-shadow: 0rpx 0rpx 15rpx rgb(182, 174, 174);
+}
+.info-box .addrImg{
+  width: 100rpx;
+  height: 100%;
+  float: left;
+}
+.info-box image{
+  width: 34rpx;
+  height: 34rpx;
+  margin: 58rpx 30rpx;
+}
+.info-box .info{
+  height: 150rpx;
+  float: left;
+}
+.info .name{
+  font-size: 32rpx;
+}
+.info .tel{
+  font-size:30rpx;
+  color: #666;
+  margin-left: 20rpx; 
+}
+.info .addr{
+  width: 500rpx;
+  font-size: 24rpx;
+  margin-top:15rpx; 
+  line-height: 40rpx;
+}
+.card{
+  border-bottom: 1rpx solid #eee;
+  background-color: #fff !important;
+}
+.row-box{
+  width: 100%;
+  height: 30rpx;
+  line-height: 30rpx;
+  margin: 20rpx 0;
+  box-sizing: border-box;
+  padding: 0 5%;
+  font-size: 30rpx;
+}
+.row-box2{
+  width: 100%;
+  height: 28rpx;
+  line-height: 28rpx;
+  margin: 10rpx 0;
+  box-sizing: border-box;
+  padding: 0 5%;
+  font-size: 26rpx;
+  color: #999;
+}
+.cccbg{
+  background: #f9f9f9;
+  width: 100%;
+  height: 30rpx;
+}
+.footer{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  position: fixed;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 15rpx 40rpx;
+  box-shadow: 0rpx 0rpx 15rpx rgb(182, 174, 174);
+  z-index: 1;
+  background: #fff;
+}
+.footer button{
+  width: 180rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  border-radius: 15rpx;
+  float: right;
+  padding: 0;
+  margin-left: 20rpx;
+}
+.footer .but1{
+  background: red;
+  color: #fff;
+}
+.footer .but2{
+  background: #fff;
+  color: #707070;
+  border: #707070 1rpx solid;
+}
+.footer .but3{
+  background: #fff;
+  color: red;
+  border: red 1rpx solid;
+}

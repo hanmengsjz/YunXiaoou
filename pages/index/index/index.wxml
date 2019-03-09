@@ -1,0 +1,94 @@
+<!--index.wxml-->
+<view class='header'>
+  <view>
+    <input type='text' confirm-type='search' placeholder="搜索您需要的产品" class="search" bindconfirm="search">
+    <image src='/images/search.png' mode="aspectFit"></image>
+    </input>
+  </view>
+  <swiper class='swiper' indicator-dots circular autoplay>
+    <block wx:for="{{findHot}}" wx:key="{{index}}">
+      <block wx:if="{{item.fashion == 4}}">
+        <swiper-item>
+          <view class='banner' data-id='{{item.id}}' bindtap='goDetail'>
+            <image src="{{item.goodsImages[0].url}}" class="slide-image" />
+          </view>
+        </swiper-item>
+      </block>
+    </block>
+  </swiper>
+</view>
+<view class='class'>
+  <view class='class-box' bindtap='goList' data-type='1'>
+    <view class='class-img class-img-1'>
+      <image src='/images/class-1.png'></image>
+    </view>
+    <view class='title'>红酒</view>
+  </view>
+  <view class='class-box' bindtap='goList' data-type='2'>
+    <view class='class-img class-img-2'>
+      <image src='/images/class-2.png'></image>
+    </view>
+    <view class='title'>啤酒</view>
+  </view>
+  <view class='class-box' bindtap='goList' data-type='3'>
+    <view class='class-img class-img-3'>
+      <image src='/images/class-3.png'></image>
+    </view>
+    <view class='title'>白酒</view>
+  </view>
+  <view class='class-box' bindtap='goList' data-type='4'>
+    <view class='class-img class-img-4'>
+      <image src='/images/class-4.png'></image>
+    </view>
+    <view class='title'>其它</view>
+  </view>
+</view>
+<view class='recommend' wx:for="{{fashion}}" wx:key="{{index}}">
+  <view class='title'>{{item.name}}</view>
+  <view class='goods-box'>
+    <view wx:for="{{findHot}}" wx:for-item="items" wx:key="{{index}}">
+      <view wx:if="{{item.id == items.fashion}}" class='goods'>
+        <image src='{{items.goodsImages[0].url}}' bindtap='goDetail' data-id='{{items.id}}'></image>
+        <text class='name'>{{items.name}}</text>
+        <text class='info'>{{items.describe}}</text>
+        <view class='buy'>
+          <text class='price'>￥{{items.money}}</text>
+          <view class='car' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
+            <van-icon name="shopping-cart" color="#FFFFFF" data-fashion='{{items.fashion}}' data-index='{{index}}' bind:click="showPop" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
+  <view class='pop-main'>
+    <view class='info'>
+      <view class='img'>
+        <image src='{{popData.goodsImages[0].url}}'></image>
+      </view>
+      <view class='title'>
+        <view class='price'>￥{{popData.money}}</view>
+        <view class='select'>已选择：{{popData.name}}</view>
+      </view>
+    </view>
+    <view class='count'>
+      <text class='title'>数量</text>
+      <view class='count-box'>
+        <van-stepper value="{{count}}" data-index="{{index}}" bind:change="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
+      </view>
+    </view>
+    <view class='temperature'>
+      <text class='title'>温度</text>
+      <view class='temp-box' catchtap='temp'>
+        <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
+        <view class='temp {{temp==0 ? "active" : ""}}' data-temp='0'>常温</view>
+        <view class='temp {{temp==0.5 ? "active" : ""}}' data-temp='0.5'>一半冰一半温</view>
+      </view>
+    </view>
+    <view class='buy-box'>
+      <view class='add-car' bindtap='addCar' data-id='{{popData.id}}'>加入购物车</view>
+      <view class='buy-now' bindtap='buyNow' data-id='{{popData.id}}'>立即购买</view>
+    </view>
+  </view>
+</van-popup>

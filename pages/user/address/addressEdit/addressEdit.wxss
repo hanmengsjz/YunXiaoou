@@ -1,0 +1,12 @@
+/* pages/user/address/addressEdit/addressEdit.wxss */
+.btn{
+  position: fixed;
+  bottom: 0;
+  height: 88rpx;
+  width: 100%;
+  background: #FFD200;
+  color: #fff;
+  font-size: 36rpx;
+  line-height: 88rpx;
+  text-align: center;
+}

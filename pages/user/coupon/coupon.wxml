@@ -1,0 +1,59 @@
+<!--pages/user/coupon/coupon.wxml-->
+<van-tabs color="#ffd200" animated swipeable bind:change="onChange">
+  <van-tab title="未使用">
+    <view class='container'>
+      <view wx:for="{{coupon}}" wx:for-item="data" wx:key="{{index}}">
+        <view class='list-box' wx:if="{{total == null ? true : total >= data.start_money}}">
+          <view class='boxt'>
+            <view class='money'>
+              ￥{{data.subtract_money}}
+            </view>
+            <view class='box-main'>
+              <view class='title'>专享优惠券</view>
+              <view class='describe'>无时间限制</view>
+            </view>
+            <view class='but'>
+              <button bindtap='goOrder' data-index='{{index}}'>去使用</button>
+            </view>
+          </view>
+          <view class='condition'>
+            <view wx:if="{{data.start_money == 0}}">无门槛使用</view>
+            <block wx:else>满{{data.start_money}}元可用</block>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='no-data' wx:if="{{coupon.length == 0}}">
+      <image src='/images/no-order.png'></image>
+      <view class='info-1'>小主，目前还没有优惠券</view>
+      <view class='info-2'>快去逛逛其它吧！</view>
+    </view>
+  </van-tab>
+  <van-tab title="已使用">
+    <view class='container'>
+      <view class='list-box' wx:for="{{coupon}}" wx:key="{{index}}">
+        <view class='boxt'>
+          <view class='money'>
+            ￥{{item.subtract_money}}
+          </view>
+          <view class='box-main'>
+            <view class='title'>专享优惠券</view>
+            <view class='describe'>无时间限制</view>
+          </view>
+          <view class='but'>
+            <image src='/images/used.png' mode='aspectFit'></image>
+          </view>
+        </view>
+        <view class='condition'>
+          <view wx:if="{{item.start_money == 0}}">无门槛使用</view>
+          <block wx:else>满{{item.start_money}}元可用</block>
+        </view>
+      </view>
+    </view>
+    <view class='no-data' wx:if="{{coupon.length == 0}}">
+      <image src='/images/no-order.png'></image>
+      <view class='info-1'>小主，目前还没有优惠券</view>
+      <view class='info-2'>快去逛逛其它吧！</view>
+    </view>
+  </van-tab>
+</van-tabs>

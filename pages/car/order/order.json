@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-icon": "/dist/icon/index",
+    "van-field": "/dist/field/index",
+    "van-cell": "/dist/cell/index",
+    "van-cell-group": "/dist/cell-group/index",
+    "van-submit-bar": "/dist/submit-bar/index"
+  },
+  "navigationBarTitleText": "确认订单"
+}

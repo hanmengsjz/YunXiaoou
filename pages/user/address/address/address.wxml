@@ -1,0 +1,33 @@
+<!--pages/user/address/address/address.wxml-->
+<view wx:if="{{address.length > 0}}" class="main">
+  <van-radio-group value="{{ radio }}" bind:change="onChange">
+    <view class='cell' wx:for="{{address}}" wx:key="{{index}}">
+      <view class='info' bindtap='selectAddress' data-index='{{index}}'>
+        <view class='name'>{{item.name}}</view>
+        <view class='phone'>{{item.phone}}</view>
+      </view>
+      <view class='address' bindtap='selectAddress' data-index='{{index}}'>
+        {{item.address}}
+      </view>
+      <view class='toolbar'>
+        <view class='checkbox' data-id='{{item.id}}'>
+          <van-radio name="{{item.id+''}}" checked-color="#FFD200" data-id='{{item.id}}'>
+            <view style='font-size: 30rpx;color: #FFD200;'>默认地址</view>
+          </van-radio>
+        </view>
+        <view class='edit'>
+          <view bindtap='goAddressEdit' data-id='{{item.id}}'>编辑</view>
+          <view class='delete' data-id='{{item.id}}' bindtap='deleteAddress'>删除</view>
+        </view>
+      </view>
+    </view>
+  </van-radio-group>
+</view>
+<view wx:else class='no-address'>
+  <view class='img'>
+    <image src='/images/no-address.png'></image>
+  </view>
+  <view class='no-add'>无收货地址</view>
+  <view class='info'>"不要捉迷藏，快把地址告诉我"</view>
+</view>
+<view class='btn' bindtap='goAddressEdit'>添加一个收货地址</view>

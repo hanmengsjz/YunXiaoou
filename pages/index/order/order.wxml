@@ -1,0 +1,63 @@
+<!--pages/car/order/order.wxml-->
+<view class='address'>
+  <view>
+    <van-icon name="location-o" color="#fff" />
+  </view>
+  <view class='cont'>
+    <view class='info'>
+      <view>{{selectAddress.name}}</view>
+      <view>{{selectAddress.phone}}</view>
+    </view>
+    <view class='location'>
+      {{selectAddress.address}}
+    </view>
+  </view>
+  <view>
+    <van-icon name="arrow" color="#fff" bind:click="goAddress" data-type='order' />
+  </view>
+</view>
+<view class='goods-list'>
+  <view class='goods'>
+    <view class='time'>{{selectData.creation_time}}</view>
+    <view class='info' data-id='{{selectData.id}}' bindtap='goDetail'>
+      <view class='img'>
+        <image src='{{selectData.goodsImages[0].url}}'></image>
+      </view>
+      <view class='cont'>
+        <view class='name'>{{selectData.name}}</view>
+        <view class='descs'>
+          <view class='desc'>{{selectData.describe}}</view>
+          <view class='count'>共{{onLoadEvent.count}}件
+            <van-icon name="arrow" color="#333333" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='remark'>
+  <van-cell-group>
+    <van-field value="{{ remark }}" label="订单备注" type="textarea" placeholder="请输入备注" autosize border=""     bind:change="remark"
+ />
+  </van-cell-group>
+</view>
+<view class='coupon'>
+  <van-cell title="优惠券" value="{{!selectCoupon.id ? '请选择优惠券' : '已选择满'+selectCoupon.start_money+'减'+selectCoupon.subtract_money+'优惠券'}}" is-link bind:click="selectCoupon" data-type="order" />
+</view>
+<view class='payment'>
+  <view class='list-box' bindtap="menuClick" data-num='1'>
+    <image src='/images/weixin.png' mode='aspectFit' class='list-img'></image>
+    <text>微信支付</text>
+    <view class="choice {{num==1?'bgRed':''}}">
+      <image src='/images/choice.png' mode='aspectFit'></image>
+    </view>
+  </view>
+  <view class='list-box' bindtap="menuClick" data-num='2'>
+    <image src='/images/yue.png' mode='aspectFit' class='list-img'></image>
+    <text>余额支付</text>
+    <view class="choice {{num==2?'bgRed':''}}">
+      <image src='/images/choice.png' mode='aspectFit'></image>
+    </view>
+  </view>
+</view>
+<van-submit-bar price="{{ total }}" button-text="提交订单" bind:submit="order" tip="{{!selectCoupon.id ? '' : '已使用优惠券，节省'+selectCoupon.subtract_money+'元'}}" />

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "van-card": "/dist/card/index",
+    "van-dialog": "/dist/dialog/index"
+  },
+  "navigationBarTitleText": "订单详情"
+}

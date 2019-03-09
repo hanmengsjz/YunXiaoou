@@ -1,0 +1,9 @@
+<!--pages/login/login.wxml-->
+<!-- <view wx:if="{{main}}" class='no-address'> -->
+<view class='no-address'>
+  <view class='img'>
+    <image src='/images/login.png'></image>
+  </view>
+  <view class='no-add'>您的授权已失效，请重新授权</view>
+  <button class='btn' open-type="getUserInfo" bindgetuserinfo="gave">点击授权</button>
+</view>

@@ -1,0 +1,27 @@
+<!--pages/shoppingcar/index/index.wxml-->
+<view class='main'>
+  <van-checkbox-group value="{{ selectArr }}" bind:change="onSelect">
+    <view class='shop' wx:for='{{shopcarData}}' wx:key='{{index}}'>
+      <van-checkbox name="{{item.id}}" data-money='{{item.goods.money}}' checked-color="#FFD200"></van-checkbox>
+      <image class='shop_img' src='{{item.goodsImages[0].url}}' mode='aspectFill' bindtap='goDetail' data-id='{{item.goods.id}}'></image>
+      <view class='shop_detail'>
+        <text class='shop_name'>{{item.goods.name}}</text>
+        <text class='shop_type'>{{item.goods.describe}} <text class='shop_price'>￥{{item.goods.money*item.conut}}</text></text>
+        <view class='shop_detail_bottom'>
+          <view class='count-box'>
+            <van-stepper value="{{item.conut}}" disable-input data-id="{{item.goods.id}}" bind:plus="numChange" bind:minus="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
+          </view>
+          <van-icon name="delete" bind:click="deleteGoods" data-id='{{item.id}}' />
+        </view>
+      </view>
+    </view>
+  </van-checkbox-group>
+  <view class='no-data' wx:if="{{shopcarData.length == 0}}">
+    <image src='/images/no-address.png'></image>
+    <view class='info-1'>小主，目前购物车还没有商品</view>
+    <view class='info-2'>快去逛逛其它吧！</view>
+  </view>
+</view>
+<van-submit-bar price="{{ total }}" button-text="结算" bind:submit="submit">
+  <van-checkbox value="{{ allsel }}" bind:change="onSelectAll" class='all-check' checked-color="#FFD200">全选</van-checkbox>
+</van-submit-bar>

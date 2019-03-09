@@ -1,0 +1,142 @@
+/* pages/Member/index/index.wxss */
+
+.container {
+  padding: 30rpx;
+  box-sizing: border-box;
+}
+
+.panel {
+  width: 100%;
+  height: 300rpx;
+  border-radius: 23rpx;
+  position: relative;
+  color: #ffffd4;
+  font-size: 30rpx;
+}
+
+.userInfo {
+  width: 100%;
+  height: 200rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.obtainingbut {
+  width: 80%;
+  margin: 50rpx auto;
+}
+
+.userHead {
+  width: 120rpx;
+  height: 120rpx;
+  margin: 40rpx;
+  background: #fff;
+  border-radius: 50%;
+  float: left;
+}
+
+.userName {
+  float: left;
+  margin-top: 70rpx;
+}
+
+.buttomInfo {
+  width: 100%;
+  height: 100rpx;
+  position: absolute;
+  left: 0;
+  top: 200rpx;
+}
+
+.info-list {
+  width: 50%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  float: left;
+  box-sizing: border-box;
+}
+
+.info-list .text {
+  display: inline-block;
+}
+
+.info-list .btmv {
+  display: inline-block;
+  width: 23rpx;
+  height: 23rpx;
+  margin: 2rpx;
+}
+
+.info-list .btmimg {
+  width: 100%;
+  height: 100%;
+  margin-left: 5rpx;
+}
+
+.buttomInfo .line {
+  border-right: 1rpx solid #ffe03c;
+}
+
+.icoBox {
+  width: 100%;
+  height: 180rpx;
+}
+
+.icoList {
+  width: 25%;
+  height: 180rpx;
+  float: left;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 32rpx;
+  color: #333;
+}
+
+.icoBox .line {
+  border-right: 1rpx solid #f1f1f1;
+}
+
+.icoList .icoImg {
+  width: 80rpx;
+  height: 80rpx;
+  display: inline-block;
+  margin: 20rpx;
+}
+
+.icoImg image {
+  width: 100%;
+  height: 100%;
+}
+
+.cellBox {
+  width: 100%;
+  margin: 20rpx 20rpx 0;
+  padding: 20rpx 60rpx;
+  background: #fff;
+}
+
+.cell {
+  border-bottom: 2rpx solid #eaeaea;
+  height: 100rpx;
+  width: 100%;
+}
+
+.cell image {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.cell text {
+  font-size: 36rpx;
+  color: #4e4e4e;
+  margin-left: 10rpx;
+  line-height: 100rpx;
+}
+
+.cell .ico {
+  float: right;
+  color: #4e4e4e;
+  line-height: 100rpx;
+}

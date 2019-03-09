@@ -1,0 +1,64 @@
+<!--pages/user/index/index.wxml-->
+<view class='container'>
+  <image class='panel' src="/images/panelbg.png">
+    <view class='userInfo'>
+      <button class='obtainingbut' wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="login">获取头像等信息</button>
+      <block wx:else>
+        <image class='userHead' src='{{userInfo.avatarUrl}}'></image>
+        <text class='userName'>{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view class='buttomInfo'>
+      <view class='info-list' bindtap='toRoyalty'>
+        <view class='text'>我的提成</view>
+        <view class='btmv'>
+          <image class='btmimg' mode='aspectFit' src='/images/royalty.png'></image>
+        </view>
+      </view>
+      <view class='info-list' bindtap='toCode'>
+        <view class='text'>我的二维码</view>
+        <view class='btmv'>
+          <image class='btmimg' mode='aspectFit' src='/images/royalty.png'></image>
+        </view>
+      </view>
+    </view>
+  </image>
+  <view class='icoBox'>
+    <view class='icoList line' data-index='0' catchtap='toList'>
+      <view class='icoImg'>
+        <image src='/images/ico1.png'></image>
+      </view>
+      <view>待付款</view>
+    </view>
+    <view class='icoList line' data-index='1' catchtap='toList'>
+      <view class='icoImg'>
+        <image src='/images/ico2.png'></image>
+      </view>
+      <view>待发货</view>
+    </view>
+    <view class='icoList line' data-index='2' catchtap='toList'>
+      <view class='icoImg'>
+        <image src='/images/ico3.png'></image>
+      </view>
+      <view>待收货</view>
+    </view>
+    <view class='icoList' data-index='3' catchtap='toList'>
+      <view class='icoImg'>
+        <image src='/images/ico4.png'></image>
+      </view>
+      <view>退款/售后</view>
+    </view>
+  </view>
+  <view class='cellBox'>
+    <view class='cell' catchtap='toCoupon'>
+      <image class='' src='/images/purse.png'></image>
+      <text>我的优惠券</text>
+      <van-icon class='ico' name="arrow" />
+    </view>
+    <view class='cell' catchtap='toAddress'>
+      <image class='' src='/images/addrs.png'></image>
+      <text>地址管理</text>
+      <van-icon class='ico' name="arrow" />
+    </view>
+  </view>
+</view>

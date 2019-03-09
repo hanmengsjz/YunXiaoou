@@ -1,0 +1,97 @@
+/* pages/shoppingcar/index/index.wxss */
+
+page {
+  background: #f3f7f7;
+}
+
+.main {
+  flex: 1;
+  overflow: auto; /* winphone8和android4+ */
+  -webkit-overflow-scrolling: touch; /* ios5+ */
+  margin-bottom: 88rpx;
+}
+
+.shop {
+  background: #fff;
+  display: flex;
+  padding: 20rpx;
+  border-bottom: 1px solid #efefef;
+  align-items: center;
+}
+
+.shop_img {
+  width: 195rpx;
+  height: 150rpx;
+  margin: 0 20rpx;
+  border-radius: 20rpx;
+}
+
+.shop_detail {
+  flex: 1;
+}
+
+.shop_name {
+  font-size: 30rpx;
+  line-height: 40rpx;
+  display: block;
+  max-height: 80rpx;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: #333333;
+}
+
+.shop_type {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  line-height: 50rpx;
+  margin-top: 20rpx;
+}
+
+.shop_detail_bottom {
+  display: flex;
+  margin-top: 10rpx;
+  justify-content: space-between;
+}
+
+.shop_price {
+  line-height: 40rpx;
+  font-size: 50rpx;
+  flex: 1;
+  color: #f30002;
+  float: right;
+}
+
+.count-box {
+  display: flex;
+}
+
+.step-class {
+  width: 40rpx !important;
+  height: 40rpx !important;
+  border-radius: 50% !important;
+  border: none !important;
+}
+.all-check{
+  margin-left: 20rpx;
+}
+.no-data{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.no-data image{
+  margin-top: 200rpx;
+  width: 80%;
+}
+.no-data .info-1{
+  color: #333333;
+  font-size: 36rpx;
+}
+.no-data .info-2{
+  color: #999999;
+  font-size: 24rpx;
+}

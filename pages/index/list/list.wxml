@@ -1,0 +1,53 @@
+<!--pages/index/list/list.wxml-->
+<view class='recommend'>
+  <view class='goods-box'>
+    <view class='goods' wx:for="{{listData}}" wx:key="{{index}}">
+      <image src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
+      <text class='name'>{{item.name}}</text>
+      <text class='info'>{{item.describe}}</text>
+      <view class='buy'>
+        <text class='price'>￥{{item.money}}</text>
+        <view class='car' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
+          <van-icon name="shopping-cart" color="#FFFFFF" bind:click="showPop" data-index='{{index}}' />
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class='no-data' wx:if="{{listData.length == 0}}">
+    <image src='/images/no-data.png'></image>
+    <view class='info-1'>小主，目前还没有更新产品</view>
+    <view class='info-2'>快去逛逛其它吧！</view>
+  </view>
+</view>
+
+<van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
+  <view class='pop-main'>
+    <view class='info'>
+      <view class='img'>
+        <image src='{{popData.goodsImages[0].url}}'></image>
+      </view>
+      <view class='title'>
+        <view class='price'>￥{{popData.money}}</view>
+        <view class='select'>已选择：{{popData.name}}</view>
+      </view>
+    </view>
+    <view class='count'>
+      <text class='title'>数量</text>
+      <view class='count-box'>
+        <van-stepper value="{{count}}" data-index="{{index}}" bind:change="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
+      </view>
+    </view>
+    <view class='temperature'>
+      <text class='title'>温度</text>
+      <view class='temp-box' catchtap='temp'>
+        <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
+        <view class='temp {{temp==0 ? "active" : ""}}' data-temp='0'>常温</view>
+        <view class='temp {{temp==0.5 ? "active" : ""}}' data-temp='0.5'>一半冰一半温</view>
+      </view>
+    </view>
+    <view class='buy-box'>
+      <view class='add-car' bindtap='addCar' data-id='{{popData.id}}'>加入购物车</view>
+      <view class='buy-now' bindtap="buyNow" data-id='{{popData.id}}'>立即购买</view>
+    </view>
+  </view>
+</van-popup>

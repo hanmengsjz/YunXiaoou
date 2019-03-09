@@ -1,0 +1,35 @@
+/* pages/login/login.wxss */
+
+.no-address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.no-address .img {
+  padding: 100rpx 0 50rpx 0;
+}
+
+.no-address .img image {
+  width: 489rpx;
+  height: 401rpx;
+}
+
+.no-address .no-add {
+  color: #333;
+  font-size: 36rpx;
+}
+
+.btn {
+  margin-top: 20rpx;
+  height: 88rpx;
+  width: 70%;
+  border-radius: 44rpx;
+  background: #ffd200;
+  color: #fff;
+  font-size: 36rpx;
+  line-height: 88rpx;
+  text-align: center;
+  border: none;
+  outline: none;
+}

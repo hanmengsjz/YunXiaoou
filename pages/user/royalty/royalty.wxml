@@ -1,0 +1,7 @@
+<!--pages/user/royalty/royalty.wxml-->
+<view class='head'>
+    <view class='money'>0.00</view>
+    <view class='btnBox'>
+        <view class='buy' bindtap='goIndex'>购买</view>
+    </view>
+</view>

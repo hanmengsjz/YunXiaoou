@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/index/index/index",
+    "pages/car/index/index",
+    "pages/user/index/index",
+    "pages/index/detail/detail",
+    "pages/index/list/list",
+    "pages/user/royalty/royalty",
+    "pages/user/coupon/coupon",
+    "pages/user/address/address/address",
+    "pages/user/address/addressEdit/addressEdit",
+    "pages/user/list/list/list",
+    "pages/user/code/code",
+    "pages/user/list/details/details",
+    "pages/car/order/order",
+    "pages/index/order/order"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "喝小酒儿",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#eee"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index/index",
+        "text": "首页",
+        "iconPath": "/images/tab/home.png",
+        "selectedIconPath": "/images/tab/selectedHome.png"
+      },
+      {
+        "pagePath": "pages/car/index/index",
+        "text": "购物车",
+        "iconPath": "/images/tab/car.png",
+        "selectedIconPath": "/images/tab/selectedCar.png"
+      },
+      {
+        "pagePath": "pages/user/index/index",
+        "text": "我的",
+        "iconPath": "/images/tab/user.png",
+        "selectedIconPath": "/images/tab/selectedUser.png"
+      }
+    ],
+    "color": "#666666",
+    "selectedColor": "#FFD200"
+  }
+}
