@@ -7,37 +7,63 @@ Page({
 
   /* 页面的初始数据 */
   data: {
-    order:{}
+    order: {},
+    first_order: false,
+    businessTime: true,
+    express:null
   },
   /* 生命周期函数--监听页面加载 */
-  onLoad: function (options) {
-    console.log(options)
-    var order = JSON.parse(options.orders);
-    order.time = times.formatTime(new Date(order.time), 'Y/M/D h:m:s');
-    var orderStatus;
-    var orderImg;
-    switch (order.status) {
-      case 0:
-        orderStatus = "等待付款";
-        orderImg = "/images/details0.png";
-        break;
-      case 1:
-        orderStatus = "等待发货";
-        orderImg = "/images/details1.png";
-        break;
-      case 2:
-        orderStatus = "等待收货";
-        orderImg = "/images/details2.png";
-        break;
-      case 3:
-        orderStatus = "退款成功";
-        orderImg = "/images/details3.png";
-        break;
+  onLoad(options) {
+    wx.request({
+      url: e.serverurl + 'frontOrder/getOrder.action',
+      method: 'POST',
+      header: app.globalData.header,
+      data: {
+        orderId: options.id,
+      },
+      success: (res) => {
+        res.data.data.time = times.formatTime(new Date(res.data.data.time), 'Y/M/D h:m:s')
+        this.setData({
+          order: res.data.data
+        })
+        if (res.data.data.logistics){
+          this.getExpress(res.data.data.logistics)
+        }
+      },
+      fail: function() {
+
+      }
+    })
+  },
+  onShow() {
+    if (app.globalData.currentTime.slice(11, 13) < JSON.parse(wx.getStorageSync('bussiness_time')).data.start_time || app.globalData.currentTime.slice(11, 13) >= JSON.parse(wx.getStorageSync('bussiness_time')).data.end_time) {
+      this.setData({
+        businessTime: false
+      })
+    } else {
+      this.setData({
+        businessTime: true
+      })
     }
-    order.orderStatus = orderStatus;
-    order.orderImg = orderImg;
     this.setData({
-      order: order
+      first_order: wx.getStorageSync('first_order') == 0
+    })
+  },
+  getExpress(number){
+    wx.request({
+      url: e.serverurl + 'Express/getExpressInfo.action',
+      method: 'POST',
+      header: app.globalData.header,
+      data: {number},
+      success: (res) => {
+        let cacheArr = []
+        for(let i=0;i<res.data.data.expressDetail.length;i++){
+          cacheArr.push({ text: res.data.data.expressDetail[i].status, desc: res.data.data.expressDetail[i].time})
+        }
+        this.setData({
+          express: cacheArr
+        })
+      }
     })
   },
   /* 取消删除订单 */
@@ -50,7 +76,7 @@ Page({
         method: 'POST',
         header: app.globalData.header,
         data: {
-          userid: app.globalData.userInfo.userId,
+          userid: wx.getStorageSync('userId'),
           id: this.data.order.id
         },
         success: (res) => {
@@ -59,12 +85,67 @@ Page({
             url: '../list/list?index=0',
           })
         },
-        fail: function () {
-          console.log('系统错误')
+        fail: function() {
+
         }
       })
     }).catch(() => {
       // on cancel
     });
-  }
+  },
+  payment(event) {
+    if (this.data.businessTime) {
+      var orders = this.data.order;
+      wx.request({
+        url: e.serverurl + 'weixin/wxPay.action',
+        method: 'POST',
+        header: app.globalData.header,
+        data: {
+          openid: wx.getStorageSync("openId"),
+          id: JSON.stringify(orders.id),
+          total_money: JSON.stringify(orders.total_money * 100),
+          ids: orders.id,
+          status: 1,
+          appid: e.appid
+        },
+        success: (res) => {
+          if (res.data.success) {
+            wx.requestPayment({
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.package,
+              signType: "MD5",
+              paySign: res.data.data.paySign,
+              success: (data) => {
+                wx.showToast({
+                  title: '支付成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+              },
+              fail: function(error) {
+                wx.showToast({
+                  title: '支付失败',
+                  icon: 'none',
+                  duration: 2000
+                })
+              },
+              complete: function(complete) {}
+            })
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: res.data.msg,
+              success(res) {
+                if (res.confirm) {} else if (res.cancel) {}
+              }
+            })
+          }
+        },
+        fail: function() {}
+      })
+    } else {
+      app.showError()
+    }
+  },
 })

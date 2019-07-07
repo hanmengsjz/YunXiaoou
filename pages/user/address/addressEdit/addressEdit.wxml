@@ -1,9 +1,9 @@
 <!--pages/user/address/addressEdit/addressEdit.wxml-->
 <van-cell-group>
-  <van-field value="{{ username }}" label="收货人" placeholder="输入收货人姓名" bind:change="onChange" data-type="username" error-message="{{error.username}}"/>
-  <van-field value="{{ phone }}" label="手机号" placeholder="请输入手机号" bind:change="onChange" data-type="phone" error-message="{{error.phone}}"/>
-  <van-field value="{{ name }}" label="所在地址" placeholder="请选择收货地址" readonly bind:change="onChange" icon="arrow" bind:click-icon="selectLocation" error-message="{{error.name}}"/>
-  <van-field value="{{ address }}" label="详细地址" type="textarea" placeholder="请输入详细地址" autosize border="{{ false }}" bind:change="onChange" data-type="address" error-message="{{error.address}}"/>
+  <van-field value="{{ username }}" label="收货人" placeholder="输入收货人姓名" bind:change="onChange" data-type="username" error-message="{{error.username}}" maxlength="4"/>
+  <van-field value="{{ phone }}" label="手机号" placeholder="请输入手机号" bind:change="onChange" data-type="phone" error-message="{{error.phone}}" maxlength="11"/>
+  <van-field catchtap='selectLocation' value="{{ name }}" label="所在地址" placeholder="请选择收货地址" readonly bind:change="onChange" icon="arrow" bind:click-icon="selectLocation" error-message="{{error.name}}"/>
+  <van-field value="{{ address }}" label="门牌号" type="textarea" placeholder="请输入门牌号" autosize border="{{ false }}" bind:change="onChange" data-type="address" error-message="{{error.address}}"/>
 </van-cell-group>
 <van-switch-cell title="设置默认地址" checked="{{ acquiescence }}" bind:change="onChange" active-color="#FFD200" data-type="acquiescence" />
 <view class='btn' bindtap='save'>保存</view>

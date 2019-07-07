@@ -3,21 +3,7 @@
   <view class='codeBg'>
     <image src='{{codeUrl}}'></image>
   </view>
-  <image src='' class='bgimg' mode='aspectFit'></image>
-  <view class='title'>分享二维码,即可获得奖励金哦!</view>
-  <!-- <view class='mode'>
-    <view class='modeT'>
-      <view class='line'></view>
-      分享方式
-      <view class='line'></view>
-    </view>
-    <view class='modeImg'>
-      <view class='circle'>
-        <image src='/images/WeChat.png' mode='aspectFit'></image>
-      </view>
-      <view class='circle'>
-        <image src='/images/circle.png' mode='aspectFit'></image>
-      </view>
-    </view>
-  </view> -->
+  <view wx:for='{{infoUrl}}' wx:key='index' class='info'>
+    <image mode='widthFix' src='{{item.url}}'></image>
+  </view>
 </view>

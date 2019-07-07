@@ -1,57 +1,83 @@
 // pages/login/login.js
 const app = getApp();
 const e = require("../../config.js");
-console.log(app)
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    main: false
+    main: false,
+    user_id: null,
+    bgInfo:{}
   },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    //app.showMsg('正在加载…')
-    console.log(this.data.canIUse)
-    //app.hideMsg()
-    if (app.globalData.userInfo) {
-      console.log('----')
-      wx.switchTab({
-        url: '../index/index/index'
-      })
-      return
-    } else if (this.data.canIUse) {
-      console.log('=====')
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+    this.getBg()
+    wx.getStorage({
+      key: 'userId',
+      success(res) {
+        app.globalData.userId = res.data
+      }
+    })
+    app.showMsg('正在进入…')
+    setTimeout(() => {
+      if (app.globalData.userInfo) {
         wx.switchTab({
           url: '../index/index/index'
         })
-      }
-    } else {
-      console.log('+++++')
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
+        return
+      } else if (this.data.canIUse) {
+        // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+        // 所以此处加入 callback 以防止这种情况
+        app.userInfoReadyCallback = res => {
           wx.switchTab({
             url: '../index/index/index'
           })
         }
+      } else {
+        // 在没有 open-type=getUserInfo 版本的兼容处理
+        wx.getUserInfo({
+          success: res => {
+            wx.switchTab({
+              url: '../index/index/index'
+            })
+          }
+        })
+      }
+    }, 1000)
+    setTimeout(() => {
+      app.hideMsg()
+      this.setData({
+        main: true
       })
+    }, 2000)
+    if (options.id || options.scene) {
+      // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+      let promoter = options.id || decodeURIComponent(options.scene)
+      app.globalData.promoter = promoter
     }
+  },
+  getBg(){
+    wx.request({
+      url: e.serverurl + 'frontAuthorization/findByAppid.action',
+      method: 'post',
+      data:{appid:e.appid},
+      header: app.globalData.header,
+      success: (res) => {
+        this.setData({
+          bgInfo:res.data.data[0]
+        })
+      }
+    })
   },
   gave() {
     var self = this;
     wx.login({
       success: function(r) {
         var code = r.code; //登录凭证  
-        console.log(code)
         if (code) {
           //2、调用获取用户信息接口  
           wx.getUserInfo({
@@ -66,51 +92,79 @@ Page({
                 data: {
                   encryptedData: res.encryptedData,
                   iv: res.iv,
-                  code: code
+                  code: code,
+                  appid:e.appid
                 },
                 success: function(data) {
-                  console.log(data)
                   //4.解密成功后 获取自己服务器返回的结果  
                   if (data.data.status == 0) {
                     var userInfo_ = data.data.userInfo;
                     app.globalData.userInfo = userInfo_;
                     app.globalData.header.Cookie = data.header['Set-Cookie'];
+                    try {
+                      wx.setStorageSync(
+                       'Cookie',
+                       data.header['Set-Cookie']
+                      )
+                    } catch (e) {
+                      wx.setStorage({
+                        key: 'Cookie',
+                        data: data.header['Set-Cookie']
+                      })
+                    }
+                    try {
+                      wx.setStorageSync(
+                      'openId', userInfo_.openId
+                      )
+                    } catch (e) {
+                      wx.setStorage({
+                        key: 'openId',
+                        data: userInfo_.openId
+                      })
+                    }
+                    try {
+                      wx.setStorageSync(
+                         'nickName',userInfo_.nickName
+                      )
+                    } catch (e) {
+                      wx.setStorage({
+                        key: 'nickName',
+                        data: userInfo_.nickName
+                      })
+                    }
+                    try {
+                      wx.setStorageSync(
+                        'userId', userInfo_.userId
+                      )
+                    } catch (e) {
+                      wx.setStorage({
+                        key: 'userId',
+                        data: userInfo_.userId
+                      })
+                    }
                     wx.setStorage({
-                      key: 'Cookie',
-                      data: data.header['Set-Cookie']
-                    })
-                    wx.setStorage({
-                      key: 'openId',
-                      data: userInfo_.openId
-                    })
-                    wx.setStorage({
-                      key: 'nickName',
-                      data: userInfo_.nickName
+                      key: 'first_order',
+                      data: userInfo_.first_order
                     })
                     wx.switchTab({
                       url: '../index/index/index'
                     });
                   } else {
-                    console.log('解密失败')
                   }
 
                 },
                 fail: function() {
-                  console.log('系统错误')
                 }
               })
             },
             fail: function() {
-              console.log('获取用户信息失败')
             }
           })
 
         } else {
-          console.log('获取用户登录态失败！' + r.errMsg)
         }
       },
       fail: function() {
-        console.log('登陆失败')
       }
     })
   }

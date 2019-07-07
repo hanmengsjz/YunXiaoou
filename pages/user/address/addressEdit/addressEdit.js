@@ -2,7 +2,6 @@
 const app = getApp();
 const e = require("../../../../config.js");
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -18,21 +17,68 @@ Page({
     error: {}
   },
   selectLocation() {
-    console.log('选择地址')
     wx.chooseLocation({
       success: (res) => {
-        console.log(res)
         this.setData({
           name: res.name,
-          address: res.address,
           latitude: res.latitude,
           longitude: res.longitude
         })
       },
-    })
+      fail:(r)=>{
+        wx.getSetting({
+          success: (res)=> {
+            var statu = res.authSetting;
+            if (!statu['scope.userLocation']) {
+              wx.showModal({
+                title: '是否授权当前位置',
+                content: '需要获取您的地理位置，请确认授权，否则地图功能将无法使用',
+                success: (tip)=> {
+                  if (tip.confirm) {
+                    wx.openSetting({
+                      success: (data)=> {
+                        if (data.authSetting["scope.userLocation"] === true) {
+                          wx.showToast({
+                            title: '授权成功',
+                            icon: 'success',
+                            duration: 1000
+                          })
+                          //授权成功之后，再调用chooseLocation选择地方
+                          wx.chooseLocation({
+                            success: (res)=> {
+                              this.setData({
+                                name: res.name,
+                                latitude: res.latitude,
+                                longitude: res.longitude
+                              })
+                            },
+                          })
+                        } else {
+                          wx.showToast({
+                            title: '授权失败',
+                            icon: 'success',
+                            duration: 1000
+                          })
+                        }
+                      }
+                    })
+                  }
+                }
+              })
+            }
+          },
+          fail: (res)=> {
+            wx.showToast({
+              title: '调用授权窗口失败',
+              icon: 'success',
+              duration: 1000
+            })
+          }
+        })
+      }
+    })      
   },
   onLoad(event) {
-    console.log(event)
     if (event.id != 'undefined') {
       this.setData({
         id: event.id
@@ -45,7 +91,6 @@ Page({
           id: event.id
         },
         success: (res) => {
-          console.log(res)
           this.setData({
             username: res.data.data.name,
             phone: res.data.data.phone,
@@ -60,7 +105,6 @@ Page({
     }
   },
   onChange(event) {
-    console.log(event)
     let type = event.currentTarget.dataset.type
     if (type == 'username') {
       this.setData({
@@ -73,6 +117,10 @@ Page({
     } else if (type == 'acquiescence') {
       this.setData({
         acquiescence: event.detail
+      })
+    }else if(type='address'){
+      this.setData({
+        address: event.detail
       })
     }
   },
@@ -112,7 +160,7 @@ Page({
         header: app.globalData.header,
         data: {
           id: this.data.id == null ? '' : this.data.id,
-          user_id: app.globalData.userInfo.userId,
+          user_id: wx.getStorageSync('userId'),
           name: this.data.username,
           phone: this.data.phone,
           location: this.data.name,
@@ -122,7 +170,6 @@ Page({
           acquiescence: this.data.acquiescence ? '1' : '0'
         },
         success: (res) => {
-          console.log(res)
           if (res.data.code == 0) {
             wx.showToast({
               title: '保存成功',
@@ -138,6 +185,5 @@ Page({
         }
       })
     }
-    console.log(this.data)
   }
 })

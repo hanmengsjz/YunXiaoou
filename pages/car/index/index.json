@@ -6,7 +6,9 @@
     "van-submit-bar": "/dist/submit-bar/index",
     "van-tag": "/dist/tag/index",
     "van-stepper": "/dist/stepper/index",
-    "van-icon": "/dist/icon/index"
+    "van-icon": "/dist/icon/index",
+    "public-footer": "/components/footer/footer"
   },
-  "navigationBarTitleText": "购物车"
+  "navigationBarTitleText": "购物车",
+  "enablePullDownRefresh": true
 }

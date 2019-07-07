@@ -1,5 +1,5 @@
 <!--pages/user/index/index.wxml-->
-<view class='container'>
+<view class='con'>
   <image class='panel' src="/images/panelbg.png">
     <view class='userInfo'>
       <button class='obtainingbut' wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="login">获取头像等信息</button>
@@ -25,12 +25,14 @@
   </image>
   <view class='icoBox'>
     <view class='icoList line' data-index='0' catchtap='toList'>
+      <view wx:if="{{dot1}}" class='dot'></view>
       <view class='icoImg'>
         <image src='/images/ico1.png'></image>
       </view>
       <view>待付款</view>
     </view>
     <view class='icoList line' data-index='1' catchtap='toList'>
+      <view wx:if="{{dot2}}" class='dot'></view>
       <view class='icoImg'>
         <image src='/images/ico2.png'></image>
       </view>
@@ -40,25 +42,25 @@
       <view class='icoImg'>
         <image src='/images/ico3.png'></image>
       </view>
-      <view>待收货</view>
+      <view>配送中</view>
     </view>
-    <view class='icoList' data-index='3' catchtap='toList'>
+    <view class='icoList' data-index='4' catchtap='toList'>
       <view class='icoImg'>
         <image src='/images/ico4.png'></image>
       </view>
       <view>退款/售后</view>
     </view>
   </view>
-  <view class='cellBox'>
-    <view class='cell' catchtap='toCoupon'>
-      <image class='' src='/images/purse.png'></image>
-      <text>我的优惠券</text>
-      <van-icon class='ico' name="arrow" />
-    </view>
-    <view class='cell' catchtap='toAddress'>
-      <image class='' src='/images/addrs.png'></image>
-      <text>地址管理</text>
-      <van-icon class='ico' name="arrow" />
-    </view>
-  </view>
 </view>
+<van-cell-group class='cell'>
+  <van-cell title="我的优惠券({{couponCount}}张可用)" is-link url="/pages/user/coupon/coupon">
+    <image slot='icon' src='/images/quanquan.png' mode='aspectFill'></image>
+  </van-cell>
+  <van-cell title="地址管理" is-link url="/pages/user/address/address/address">
+    <image slot='icon' src='/images/addres.png' mode='aspectFill'></image>
+  </van-cell>
+  <van-cell title="我的好友" is-link url="/pages/user/friends/friends">
+    <image slot='icon' src='/images/friend.png' mode='aspectFill'></image>
+  </van-cell>
+</van-cell-group>
+<public-footer></public-footer>

@@ -40,9 +40,12 @@ page {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  color: #333333;
+  color: #333;
 }
-
+.shop_name .desc{
+  padding-left: 20rpx;
+  color: #666
+}
 .shop_type {
   display: block;
   font-size: 26rpx;
@@ -65,6 +68,12 @@ page {
   float: right;
 }
 
+.old-price {
+  font-size: 30rpx;
+  color: #454545;
+  text-decoration: line-through;
+}
+
 .count-box {
   display: flex;
 }
@@ -75,23 +84,28 @@ page {
   border-radius: 50% !important;
   border: none !important;
 }
-.all-check{
+
+.all-check {
   margin-left: 20rpx;
 }
-.no-data{
+
+.no-data {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.no-data image{
+
+.no-data image {
   margin-top: 200rpx;
   width: 80%;
 }
-.no-data .info-1{
-  color: #333333;
+
+.no-data .info-1 {
+  color: #333;
   font-size: 36rpx;
 }
-.no-data .info-2{
-  color: #999999;
+
+.no-data .info-2 {
+  color: #999;
   font-size: 24rpx;
 }

@@ -1,7 +1,11 @@
 <!--pages/user/royalty/royalty.wxml-->
 <view class='head'>
-    <view class='money'>0.00</view>
-    <view class='btnBox'>
-        <view class='buy' bindtap='goIndex'>购买</view>
-    </view>
+  <view class='money'>{{money}}元</view>
+  <view class='btnBox'>
+    <view class='buy' bindtap='goIndex'>购买</view>
+  </view>
 </view>
+<!-- <view>提成明细:</view> -->
+<van-collapse wx:for="{{royalty}}" wx:key="{{index}}" value="{{activeNames}}" bind:change="onChange" accordion>
+  <van-collapse-item title="{{item.msg}}" name="{{index}}">{{item.time}} </van-collapse-item>
+</van-collapse>

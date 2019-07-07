@@ -1,0 +1,12 @@
+<!--components/footer.wxml-->
+<view class='pubic-bottom'>
+  <view class='logo'><image src='../../images/logo.png' mode='aspectFit' style='width:200rpx;height:46rpx;'></image></view>
+  <view class='name'>提供技术支持</view>
+</view>
+<!-- <view class='pubic-bottom' bindtap='another'>
+  <view class='logo'><image src='../../images/logo.png' mode='aspectFit' style='width:200rpx;height:46rpx;'></image></view>
+  <view class='name'>提供技术支持</view>
+</view> -->
+<!-- //前端canvas   -->
+<!-- <canvas canvas-id='canvas_poster' class='wx-poster'  bindtap='another'>智莱云</canvas> -->
+

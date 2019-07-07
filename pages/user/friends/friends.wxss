@@ -1,0 +1,14 @@
+/* pages/user/friends/friends.wxss */
+.bg{
+  width: 100%
+}
+.bgFriend{
+  text-align:center;
+  height:100rpx;
+  font-size:35rpx;
+  line-height:100rpx;
+  background:#ffd200;
+  color:#5d5d5d;
+  font-family:cursive;
+  font-weight:bold;
+}

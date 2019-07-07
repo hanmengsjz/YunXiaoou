@@ -1,9 +1,5 @@
 /**index.wxss**/
 
-page {
-  background: #f9f9f9;
-}
-
 .header {
   position: relative;
   overflow: hidden;
@@ -14,123 +10,117 @@ page {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -50rpx;
+  bottom: -20rpx;
   content: '';
   z-index: 8;
-  height: 100rpx;
+  height: 40rpx;
   width: 100%;
   border-radius: 50%;
-  background: #fff;
+  background: #48D1Cc;
 }
 
 .swiper {
-  height: 500rpx;
+  width: 100%;
+  height: 100%;
 }
 
 .banner {
   width: 100%;
-  height: 350rpx;
+  height: 100%;
 }
-.banner image{
+
+.banner image {
+  display: block;
   width: 100%;
-}
-
-.search {
-  position: absolute;
-  top: 10rpx;
-  left: 75rpx;
-  padding: 0rpx;
-  width: 600rpx;
-  height: 58rpx;
-  border-radius: 50rpx;
-  background-color: #fff;
-  font-size: 26rpx;
-  text-align: center;
-  z-index: 2;
-}
-
-.search image {
-  position: absolute;
-  width: 31rpx;
-  height: 47rpx;
-  left: 23rpx;
-  top: 5rpx;
+  height: 100%;
 }
 
 .class {
-  position: relative;
   display: flex;
-  justify-content: space-around;
-  width: 100%;
-  height: 140rpx;
-  background: #fff;
+  overflow: scroll;
+  background: #48D1Cc;
   box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.class-box {
+  min-width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  margin: 20rpx 0;
 }
 
 .class-img {
   border-radius: 20rpx;
   height: 80rpx;
   width: 80rpx;
-}
-
-.class-img-1 {
-  background: #fc858a;
-}
-
-.class-img-2 {
-  background: #3edae6;
-}
-
-.class-img-3 {
-  background: #7ace33;
-}
-
-.class-img-4 {
-  background: #a086e3;
+  overflow: hidden;
 }
 
 .class-img image {
-  margin: 15%;
-  height: 70%;
-  width: 70%;
+  height: 100%;
+  width: 100%;
 }
 
 .class-box .title {
   margin-top: 10rpx;
   font-size: 28rpx;
-  color: #373737;
+  color: rgb(27, 2, 2);
   text-align: center;
 }
 
-.recommend {
-  margin-top: 10rpx;
-  padding: 10rpx 30rpx;
-  background: #fff;
+.recommend .title {
+  position: relative;
+  width: 100%;
 }
 
-.recommend .title {
-  font-size: 32rpx;
-  color: #333;
-  padding-left: 20rpx;
-  border-left: 3rpx solid #ff0024;
+.recommend .title image {
+  width: 100%;
 }
 
 .goods-box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  padding: 20rpx;
+  justify-content: space-around;
+  background: #48D1Cc;
 }
 
 .goods {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  width: 320rpx;
-  margin-top: 20rpx;
+  min-width: 280rpx;
+  max-width: 100%;
+  padding: 20rpx;
+  margin: 20rpx 10rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  align-items: center;
+}
+
+.dan .goods-box .goods:first-child {
+  min-width: 70%;
+}
+
+.goods .inner {
+  width: 100%;
+  max-width: 300rpx;
+}
+
+.width .goods {
+  min-width: 70%;
+}
+
+.width .goods .inner {
+  width: 70%;
+  max-width: 100%;
 }
 
 .goods image {
-  width: 320rpx;
-  height: 220rpx;
+  width: 100%;
 }
 
 .goods .name {
@@ -153,12 +143,19 @@ page {
   color: #f30002;
 }
 
+.old-price {
+  font-size: 30rpx;
+  color: #454545;
+  text-decoration: line-through;
+}
+
 .goods .car {
   display: flex;
   justify-content: center;
-  width: 46rpx;
-  height: 46rpx;
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
+  align-items: center;
 }
 
 .count {
@@ -210,7 +207,7 @@ page {
   line-height: 40rpx;
   color: #999;
   font-size: 26rpx;
-  padding: 0 10rpx;
+  padding: 6rpx 16rpx;
   border: 2rpx solid #999;
   border-radius: 8rpx;
 }
@@ -240,9 +237,12 @@ page {
   flex: 1;
   background: #f30002;
 }
-.pop-main{
+
+.pop-main {
   background: #fff;
+  padding-top: 10rpx;
 }
+
 .pop-main .info {
   display: flex;
   padding: 0 40rpx;
@@ -257,12 +257,12 @@ page {
 
 .pop-main .info .img image {
   width: 100%;
-  height: 100%;
 }
 
 .pop-main .info .title {
   padding-left: 20rpx;
 }
+
 .pop-main .info .price {
   margin-top: 20rpx;
   color: #f30002;
@@ -273,4 +273,29 @@ page {
   margin-top: 10rpx;
   font-size: 30rpx;
   color: #333;
+}
+
+.flex {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* 客服 */
+
+.kf_button {
+  background-color: #fff;
+  border: 0;
+  height: 100rpx;
+  width: 100rpx;
+  border-radius: 50%;
+  box-shadow: 0 0 4rpx 4rpx #ddd;
+  right: 20rpx;
+  bottom: 20rpx;
+  position: fixed;
+  z-index: 99;
+  text-align: center;
+  line-height: 120rpx;
 }

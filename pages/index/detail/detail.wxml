@@ -1,19 +1,23 @@
 <!--pages/index/detail/detail.wxml-->
-<swiper class='swiper' indicator-dots circular autoplay>
-  <view wx:for="{{goodsImg}}" wx:key="{{index}}">
-    <view wx:if="{{item.type == 1}}">
-      <swiper-item>
-        <view class='banner'>
-          <image src="{{item.url}}" class="slide-image" />
-        </view>
-      </swiper-item>
-    </view>
-  </view>
+<swiper class='swiper' indicator-dots circular>
+  <block wx:for="{{goodsImg}}" wx:key="{{index}}" wx:if="{{item.type == 1}}">
+    <swiper-item>
+      <view class='banner'>
+        <image src="{{item.url}}" mode='aspectFill' />
+      </view>
+    </swiper-item>
+  </block>
 </swiper>
 <view class='info-box'>
   <view class='info'>{{detailData.name}}</view>
-  <view class='price'>￥{{detailData.money}}</view>
-  <view class='desc'>{{detailData.describe}}</view>
+  <block wx:if='{{detailData.is_discount!=0 && first_order}}'>
+    <text class='price'>￥{{detailData.money*detailData.discount_num}}</text>
+    <text class='old-price'>￥{{detailData.money}}</text>
+  </block>
+  <block wx:else>
+    <view class='price'>￥{{detailData.money}}</view>
+  </block>
+  <view class='desc'>{{detailData.describes}}</view>
 </view>
 <view class='count'>
   <text class='title'>数量</text>
@@ -22,25 +26,23 @@
   </view>
 </view>
 <view class='temperature'>
-  <text class='title'>温度</text>
-  <van-slider value="50" bind:change="onChange" />
+  <text class='title'>规格</text>
   <view class='temp-box' catchtap='temp'>
-    <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
-    <view class='temp {{temp==2 ? "active" : ""}}' data-temp='2'>常温</view>
-    <view class='temp {{temp==3 ? "active" : ""}}' data-temp='3'>一半冰一半温</view>
+    <view wx:for="{{detailData.specificationGood}}" class='temp {{spec.specification_id == item.specification_id ? "active" : ""}}' data-spec='{{item}}'>{{item.specification_name}}</view>
   </view>
 </view>
-<view class='mail'>
-  <text class='title'>由喝小酒儿提供配送服务</text>
-</view>
-<view class='buy'>
-  <view class='add-car' bindtap='addCar' data-id='{{detailData.id}}'>加入购物车</view>
-  <view class='buy-now' bindtap='buyNow'>立即购买</view>
-</view>
+<van-goods-action>
+  <van-goods-action-icon icon="chat-o" text="客服" send-message-title="{{detailData.name}}" send-message-img="{{goodsImg[0].url}}" show-message-card="true" send-message-path="/pages/index/detail/detail?id={{detailData.id}}" open-type='contact' />
+  <van-goods-action-icon icon="cart-o" text="购物车" url="../../car/index/index" link-type="switchTab" />
+  <van-goods-action-icon icon="shop-o" text="店铺" url="../../index/index/index" link-type="switchTab" />
+  <van-goods-action-button text="加入购物车" type="warning" bind:click="addCar" data-id='{{detailData.id}}' />
+  <van-goods-action-button text="立即购买" bind:click="buyNow" />
+</van-goods-action>
 <view class='info-img'>
   <view wx:for="{{goodsImg}}" wx:key="{{index}}">
     <view class='banner' wx:if="{{item.type == 2}}">
-      <image src="{{item.url}}" class="slide-image" />
+      <image src="{{item.url}}" class="slide-image" mode='widthFix' />
     </view>
   </view>
 </view>
+<public-footer></public-footer>

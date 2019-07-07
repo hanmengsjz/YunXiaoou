@@ -2,32 +2,44 @@
 <view class='recommend'>
   <view class='goods-box'>
     <view class='goods' wx:for="{{listData}}" wx:key="{{index}}">
-      <image src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
+      <image mode='widthFix' src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
       <text class='name'>{{item.name}}</text>
-      <text class='info'>{{item.describe}}</text>
+      <text class='info'>{{item.describes}}</text>
       <view class='buy'>
-        <text class='price'>￥{{item.money}}</text>
-        <view class='car' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
-          <van-icon name="shopping-cart" color="#FFFFFF" bind:click="showPop" data-index='{{index}}' />
+        <block wx:if='{{item.is_discount!=0 && first_order}}'>
+          <text class='price'>￥{{item.money*item.discount_num}}</text>
+          <text class='old-price'>￥{{item.money}}</text>
+        </block>
+        <block wx:else>
+          <text class='price'>￥{{item.money}}</text>
+        </block>
+        <view class='car' catchtap="showPop" data-index='{{index}}' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
+          <van-icon name="shopping-cart" color="#FFFFFF"  />
         </view>
       </view>
     </view>
   </view>
   <view class='no-data' wx:if="{{listData.length == 0}}">
-    <image src='/images/no-data.png'></image>
+    <image mode='widthFix' src='/images/no-data.png'></image>
     <view class='info-1'>小主，目前还没有更新产品</view>
     <view class='info-2'>快去逛逛其它吧！</view>
   </view>
 </view>
-
+<public-footer></public-footer>
 <van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
   <view class='pop-main'>
     <view class='info'>
       <view class='img'>
-        <image src='{{popData.goodsImages[0].url}}'></image>
+        <image mode='widthFix' src='{{popData.goodsImages[0].url}}'></image>
       </view>
       <view class='title'>
-        <view class='price'>￥{{popData.money}}</view>
+        <block wx:if='{{popData.is_discount!=0 && first_order}}'>
+          <text class='price'>￥{{popData.money*popData.discount_num}}</text>
+          <text class='old-price'>￥{{popData.money}}</text>
+        </block>
+        <block wx:else>
+          <text class='price'>￥{{popData.money}}</text>
+        </block>
         <view class='select'>已选择：{{popData.name}}</view>
       </view>
     </view>
@@ -38,11 +50,9 @@
       </view>
     </view>
     <view class='temperature'>
-      <text class='title'>温度</text>
-      <view class='temp-box' catchtap='temp'>
-        <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
-        <view class='temp {{temp==0 ? "active" : ""}}' data-temp='0'>常温</view>
-        <view class='temp {{temp==0.5 ? "active" : ""}}' data-temp='0.5'>一半冰一半温</view>
+      <text class='title'>规格</text>
+      <view class='temp-box' catchtap='spec'>
+        <view wx:for="{{popData.specificationGood}}" class='temp {{spec.specification_id == item.specification_id ? "active" : ""}}' data-spec='{{item}}' wx:key="{{index}}">{{item.specification_name}}</view>
       </view>
     </view>
     <view class='buy-box'>

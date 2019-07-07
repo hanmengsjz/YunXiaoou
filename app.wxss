@@ -8,6 +8,7 @@
   padding: 200rpx 0;
   box-sizing: border-box;
 } 
+
 .themeColor{
   color: #ffd200 !important;
 }
@@ -17,9 +18,7 @@
 .red{
   color: red !important;
 }
-.bgRed{
-  background: red !important;
-}
+
 .left{
   float: left;
 }

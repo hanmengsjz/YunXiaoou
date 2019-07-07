@@ -5,11 +5,21 @@
       <van-checkbox name="{{item.id}}" data-money='{{item.goods.money}}' checked-color="#FFD200"></van-checkbox>
       <image class='shop_img' src='{{item.goodsImages[0].url}}' mode='aspectFill' bindtap='goDetail' data-id='{{item.goods.id}}'></image>
       <view class='shop_detail'>
-        <text class='shop_name'>{{item.goods.name}}</text>
-        <text class='shop_type'>{{item.goods.describe}} <text class='shop_price'>￥{{item.goods.money*item.conut}}</text></text>
+        <text class='shop_name'>{{item.goods.name}}<text class='desc'>{{item.goods.describes}}</text></text>
+        <view class='shop_type'>
+          <text>{{item.specification_name}}</text>
+          <block wx:if='{{item.goods.is_discount!=0 && first_order}}'>
+            <view class='shop_price'>￥{{item.goods.money*(item.conut-1)+item.goods.money*item.goods.discount_num}}
+              <text class='old-price'>￥{{item.goods.money*item.conut}}</text>
+            </view>
+          </block>
+          <block wx:else>
+            <view class='shop_price'>￥{{item.goods.money*item.conut}}</view>
+          </block>
+        </view>
         <view class='shop_detail_bottom'>
           <view class='count-box'>
-            <van-stepper value="{{item.conut}}" disable-input data-id="{{item.goods.id}}" bind:plus="numChange" bind:minus="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
+            <van-stepper value="{{item.conut}}" disable-input data-id="{{item.goods.id}}" data-sname="{{item.specification_name}}" data-sid="{{item.specification_id}}" bind:plus="numChange" bind:minus="numChange" plus-class="step-class" minus-class="step-class" input-class="step-class" />
           </view>
           <van-icon name="delete" bind:click="deleteGoods" data-id='{{item.id}}' />
         </view>
@@ -22,6 +32,7 @@
     <view class='info-2'>快去逛逛其它吧！</view>
   </view>
 </view>
+<public-footer></public-footer>
 <van-submit-bar price="{{ total }}" button-text="结算" bind:submit="submit">
   <van-checkbox value="{{ allsel }}" bind:change="onSelectAll" class='all-check' checked-color="#FFD200">全选</van-checkbox>
 </van-submit-bar>

@@ -4,7 +4,7 @@
     <view class='container'>
       <view wx:for="{{coupon}}" wx:for-item="data" wx:key="{{index}}">
         <view class='list-box' wx:if="{{total == null ? true : total >= data.start_money}}">
-          <view class='boxt'>
+          <view class='boxt' bindtap='goOrder' data-index='{{index}}'>
             <view class='money'>
               ￥{{data.subtract_money}}
             </view>
@@ -13,7 +13,7 @@
               <view class='describe'>无时间限制</view>
             </view>
             <view class='but'>
-              <button bindtap='goOrder' data-index='{{index}}'>去使用</button>
+              <button bindtap='goOrder' data-index='{{index}}' style="display:{{type=='order'?'none':'block'}}">去使用</button>
             </view>
           </view>
           <view class='condition'>

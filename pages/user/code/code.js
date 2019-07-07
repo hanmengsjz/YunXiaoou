@@ -7,7 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    codeUrl:''
+    codeUrl:'',
+    infoUrl:''
   },
 
   /**
@@ -19,12 +20,23 @@ Page({
       method: 'post',
       header: app.globalData.header,
       data: {
-        promoter: app.globalData.userInfo.userId
+        promoter: wx.getStorageSync('userId')
+       // appid: e.appid
       },
       success: (res) => {
-        console.log(res)
         this.setData({
           codeUrl: res.data.data.twoCodeUrl
+        })
+      }
+    })
+    wx.request({
+      url: e.serverurl + 'frontTwoCodeIntroduce/findByAppId.action',
+      method: 'post',
+      data:{appid:e.appid},
+      header: app.globalData.header,
+      success: (res) => {
+        this.setData({
+          infoUrl: res.data.data
         })
       }
     })

@@ -1,0 +1,6 @@
+<!--pages/user/friends/friends.wxml-->
+<view class='bgFriend'>点击朋友昵称查看为您赚取的提成</view>
+<van-cell-group>
+  <van-cell wx:for="{{user}}" wx:key="index" title="{{item.by_promoter_name}}" value="{{item.time}}" bind:click="check" data-id="{{item.by_promoter}}" />
+</van-cell-group>
+<!-- <image class='bg' src='/images/friends.png'></image> -->

@@ -1,9 +1,15 @@
 /* pages/index/list/list.wxss */
 
+/* page{
+  min-height: 5%;
+  background: #48D1Cc;
+
+} */
 .recommend {
   margin-top: 10rpx;
   padding: 10rpx 30rpx;
-  background: #fff;
+  background: #48D1Cc;
+  min-height: 1000rpx; 
 }
 
 .recommend .title {
@@ -28,7 +34,7 @@
 
 .goods image {
   width: 320rpx;
-  height: 220rpx;
+  height: 320rpx;
 }
 
 .goods .name {
@@ -38,7 +44,7 @@
 
 .goods .info {
   font-size: 28rpx;
-  color: #999;
+  color: rgb(85, 81, 81);
 }
 
 .goods .buy {
@@ -50,15 +56,22 @@
   font-size: 38rpx;
   color: #f30002;
 }
-
+.old-price {
+  font-size: 30rpx;
+  color: #454545;
+  text-decoration: line-through;
+}
 .goods .car {
   padding-left: 10rpx;
   background: #f30002;
-  width: 46rpx;
-  height: 46rpx;
+  width: 60rpx;
+  height: 60rpx;
   border-radius: 50%;
   padding: 4rpx;
   box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 
 .count {
@@ -110,7 +123,7 @@
   line-height: 40rpx;
   color: #999;
   font-size: 26rpx;
-  padding: 0 10rpx;
+  padding: 6rpx 16rpx;
   border: 2rpx solid #999;
   border-radius: 8rpx;
 }
@@ -142,6 +155,7 @@
 }
 .pop-main{
   background: #fff;
+  padding-top: 10rpx;
 }
 .pop-main .info {
   display: flex;

@@ -9,7 +9,6 @@ Page({
   },
   onChange(event) {
     app.showMsg('加载中')
-    console.log(event)
     this.setData({
       radio: event.detail
     })
@@ -18,12 +17,11 @@ Page({
       method: 'post',
       header: app.globalData.header,
       data: {
-        user_id: app.globalData.userInfo.userId,
+        user_id: wx.getStorageSync('userId'),
         id: parseInt(event.detail),
         acquiescence: '1'
       },
       success: (res) => {
-        console.log(res)
         app.hideMsg();
       }
     })
@@ -32,7 +30,6 @@ Page({
     this.listData()
   },
   onLoad(event) {
-    console.log(event)
     if (event.type) {
       this.setData({
         type: event.type
@@ -40,7 +37,6 @@ Page({
     }
   },
   selectAddress(event) {
-    console.log(event)
     if (this.data.type == 'order') {
       app.globalData.orderAddress = event.currentTarget.dataset.index
       wx.navigateBack({
@@ -58,10 +54,9 @@ Page({
       method: 'post',
       header: app.globalData.header,
       data: {
-        userId: app.globalData.userInfo.userId
+        userId: wx.getStorageSync('userId')
       },
       success: (res) => {
-        console.log(res)
         this.setData({
           address: res.data.data
         })
@@ -80,7 +75,6 @@ Page({
     wx.showActionSheet({
       itemList: ['确认'],
       success: (res) => {
-        console.log(res.tapIndex)
         if (res.tapIndex == 0) {
           app.showMsg('加载中')
           wx.request({
@@ -91,7 +85,6 @@ Page({
               id: event.currentTarget.dataset.id
             },
             success: (res) => {
-              console.log(res)
               if (res.data.code == 0) {
                 wx.showToast({
                   title: '删除成功',
@@ -107,12 +100,10 @@ Page({
         }
       },
       fail(res) {
-        console.log(res.errMsg)
       }
     })
   },
   goAddressEdit(event) {
-    console.log(event.currentTarget.dataset.id)
     wx.navigateTo({
       url: '../addressEdit/addressEdit?id=' + event.currentTarget.dataset.id,
     })

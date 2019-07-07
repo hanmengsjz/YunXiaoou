@@ -1,0 +1,16 @@
+/* components/footer.wxss */
+
+.pubic-bottom {
+  width: 50%;
+  margin: 20rpx auto;
+}
+
+.pubic-bottom .logo {
+  text-align: center;
+}
+
+.pubic-bottom .name {
+  font-size: 28rpx;
+  color: #999;
+  text-align: center;
+}

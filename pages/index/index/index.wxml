@@ -1,74 +1,75 @@
 <!--index.wxml-->
+<van-notice-bar mode="closeable" text="点击右上角添加到我的小程序，微信首页下拉即可快速访问店铺" />
+
 <view class='header'>
-  <view>
-    <input type='text' confirm-type='search' placeholder="搜索您需要的产品" class="search" bindconfirm="search">
-    <image src='/images/search.png' mode="aspectFit"></image>
-    </input>
-  </view>
   <swiper class='swiper' indicator-dots circular autoplay>
-    <block wx:for="{{findHot}}" wx:key="{{index}}">
-      <block wx:if="{{item.fashion == 4}}">
-        <swiper-item>
-          <view class='banner' data-id='{{item.id}}' bindtap='goDetail'>
-            <image src="{{item.goodsImages[0].url}}" class="slide-image" />
-          </view>
-        </swiper-item>
-      </block>
+    <block wx:for="{{swiperData}}" wx:key="{{index}}">
+      <swiper-item>
+        <view class='banner' bindtap='goDetail' data-id='{{item.goods_id}}'>
+          <image mode='aspectFill' src="{{item.img_url}}" />
+        </view>
+      </swiper-item>
     </block>
   </swiper>
 </view>
+<official-account style=""></official-account>
+
 <view class='class'>
-  <view class='class-box' bindtap='goList' data-type='1'>
-    <view class='class-img class-img-1'>
-      <image src='/images/class-1.png'></image>
+  <view wx:for='{{classify}}' wx:key='index' class='class-box' bindtap='goList' data-type='{{item.id}}'>
+    <view class='class-img'>
+      <image src='{{item.url}}' mode='widthFix'></image>
     </view>
-    <view class='title'>红酒</view>
-  </view>
-  <view class='class-box' bindtap='goList' data-type='2'>
-    <view class='class-img class-img-2'>
-      <image src='/images/class-2.png'></image>
-    </view>
-    <view class='title'>啤酒</view>
-  </view>
-  <view class='class-box' bindtap='goList' data-type='3'>
-    <view class='class-img class-img-3'>
-      <image src='/images/class-3.png'></image>
-    </view>
-    <view class='title'>白酒</view>
-  </view>
-  <view class='class-box' bindtap='goList' data-type='4'>
-    <view class='class-img class-img-4'>
-      <image src='/images/class-4.png'></image>
-    </view>
-    <view class='title'>其它</view>
+    <view class='title'>{{item.name}}</view>
   </view>
 </view>
-<view class='recommend' wx:for="{{fashion}}" wx:key="{{index}}">
-  <view class='title'>{{item.name}}</view>
+<van-search class='search' placeholder="搜索您需要的产品……" bind:search="search"></van-search>
+
+<view wx:for="{{goods}}" wx:key="{{index}}" class='recommend {{item.show_num==1 ? "width":""}} {{item.goodsVos.length%2===0 ? "shuang":"dan"}}'>
+  <view class='title'>
+    <image mode='widthFix' src='{{item.module_url}}' lazy-load></image>
+  </view>
   <view class='goods-box'>
-    <view wx:for="{{findHot}}" wx:for-item="items" wx:key="{{index}}">
-      <view wx:if="{{item.id == items.fashion}}" class='goods'>
-        <image src='{{items.goodsImages[0].url}}' bindtap='goDetail' data-id='{{items.id}}'></image>
-        <text class='name'>{{items.name}}</text>
-        <text class='info'>{{items.describe}}</text>
+    <view wx:for="{{item.goodsVos}}" wx:for-item="data" wx:for-index="bindex" wx:key="{{data.id}}" class='goods'>
+      <view class='inner'>
+        <image mode='widthFix' src='{{data.goodsImages[0].url}}' bindtap='goDetail' data-id='{{data.id}}' lazy-load></image>
+        <view class='name'>{{data.name}}</view>
+        <view class='info'>{{data.describes}}</view>
         <view class='buy'>
-          <text class='price'>￥{{items.money}}</text>
-          <view class='car' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
-            <van-icon name="shopping-cart" color="#FFFFFF" data-fashion='{{items.fashion}}' data-index='{{index}}' bind:click="showPop" />
+          <block wx:if='{{data.is_discount!=0 && first_order}}'>
+            <text class='price'>￥{{data.money*data.discount_num}}</text>
+            <text class='old-price'>￥{{data.money}}</text>
+          </block>
+          <block wx:else>
+            <text class='price'>￥{{data.money}}</text>
+          </block>
+          <view class='car' data-goods='{{data}}' catchtap="showPop" style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
+            <van-icon name="shopping-cart" color="#FFFFFF" />
           </view>
         </view>
       </view>
     </view>
   </view>
 </view>
+<!-- 客服 -->
+<button class="kf_button" open-type="contact" session-from="weapp">
+  <van-icon name="service-o" size="50rpx" color="#000" />
+</button>
+<public-footer></public-footer>
+
 <van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
   <view class='pop-main'>
     <view class='info'>
       <view class='img'>
-        <image src='{{popData.goodsImages[0].url}}'></image>
+        <image src='{{popData.goodsImages[0].url}}' mode='widthFix'></image>
       </view>
       <view class='title'>
-        <view class='price'>￥{{popData.money}}</view>
+        <block wx:if='{{popData.is_discount!=0 && first_order}}'>
+          <text class='price'>￥{{popData.money*popData.discount_num}}</text>
+          <text class='old-price'>￥{{popData.money}}</text>
+        </block>
+        <block wx:else>
+          <text class='price'>￥{{popData.money}}</text>
+        </block>
         <view class='select'>已选择：{{popData.name}}</view>
       </view>
     </view>
@@ -79,11 +80,9 @@
       </view>
     </view>
     <view class='temperature'>
-      <text class='title'>温度</text>
-      <view class='temp-box' catchtap='temp'>
-        <view class='temp {{temp==1 ? "active" : ""}}' data-temp='1'>冰镇</view>
-        <view class='temp {{temp==0 ? "active" : ""}}' data-temp='0'>常温</view>
-        <view class='temp {{temp==0.5 ? "active" : ""}}' data-temp='0.5'>一半冰一半温</view>
+      <text class='title'>规格</text>
+      <view class='temp-box' catchtap='spec'>
+        <view wx:for="{{popData.specificationGood}}" class='temp {{spec.specification_id == item.specification_id ? "active" : ""}}' data-spec='{{item}}' wx:key="{{index}}">{{item.specification_name}}</view>
       </view>
     </view>
     <view class='buy-box'>

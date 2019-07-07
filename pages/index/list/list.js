@@ -3,29 +3,25 @@ const e = require('../../../config.js')
 const app = getApp()
 Page({
   data: {
-    temp: 0,
+    spec: 0,
     count: 1,
     showPop: false,
     listData: [],
     popData: {},
-    businessTime: true
+    businessTime: true,
+    first_order: false
   },
   onLoad(event) {
-    if (app.globalData.currentTime.slice(11, 13) < 11 || app.globalData.currentTime.slice(11, 13) > 22) {
-      this.setData({
-        businessTime: false
-      })
-    }
-    app.showMsg('加载中');
-    console.log(event)
+    app.showMsg('加载中')
     if (event.type) {
       wx.request({
-        url: e.serverurl + 'goodsFront/listAllByType.action',
+        url: e.serverurl + 'goodsFront/listByType.action',
         method: 'post',
         header: app.globalData.header,
         data: {
           type: event.type,
-          limit: 100
+          limit: 100,
+          appid:e.appid
         },
         success: (res) => {
           this.setData({
@@ -41,7 +37,8 @@ Page({
         header: app.globalData.header,
         data: {
           name: event.search,
-          limit: 100
+          limit: 100,
+          appid:e.appid
         },
         success: (res) => {
           this.setData({
@@ -52,10 +49,24 @@ Page({
       })
     }
   },
-  temp(e) {
-    if (e.target.dataset.temp) {
+  onShow(){
+    this.setData({
+      first_order: wx.getStorageSync('first_order') == 0
+    })
+    if (app.globalData.currentTime.slice(11, 13) < JSON.parse(wx.getStorageSync('bussiness_time')).data.start_time || app.globalData.currentTime.slice(11, 13) >= JSON.parse(wx.getStorageSync('bussiness_time')).data.end_time) {
       this.setData({
-        temp: e.target.dataset.temp
+        businessTime: false
+      })
+    } else {
+      this.setData({
+        businessTime: true
+      })
+    }
+  },
+  spec(e) {
+    if (e.target.dataset.spec) {
+      this.setData({
+        spec: e.target.dataset.spec
       })
     }
   },
@@ -65,7 +76,6 @@ Page({
     })
   },
   goDetail(event) {
-    console.log(event)
     wx.navigateTo({
       url: '../detail/detail?id=' + event.currentTarget.dataset.id,
     })
@@ -75,12 +85,13 @@ Page({
       app.showMsg('加载中');
       this.setData({
         showPop: !this.data.showPop,
-        temp: 2,
+        temp: 0,
         count: 1
       });
       if (this.data.showPop) {
         this.setData({
-          popData: this.data.listData[event.currentTarget.dataset.index]
+          popData: this.data.listData[event.currentTarget.dataset.index],
+          spec: this.data.listData[event.currentTarget.dataset.index].specificationGood[0]
         })
       }
       app.hideMsg()
@@ -90,19 +101,18 @@ Page({
   },
   addCar(event) {
     app.showMsg('加载中');
-    console.log(event);
     wx.request({
       url: e.serverurl + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {
-        user_id: app.globalData.userInfo.userId,
+        user_id: wx.getStorageSync('userId'),
         goods_id: event.currentTarget.dataset.id,
         conut: this.data.count,
-        lced: this.data.temp == 1 ? this.data.count : this.data.temp == 2 ? 0 : Math.floor(this.data.count / 2)
+        specification_id: this.data.spec.specification_id,
+        specification_name: this.data.spec.specification_name,
       },
       success: (res) => {
-        console.log(res)
         wx.showToast({
           title: '加入购物车成功',
           icon: 'success',
@@ -116,9 +126,8 @@ Page({
   },
   /* 立即购买 */
   buyNow(event) {
-    console.log(event)
     wx.navigateTo({
-      url: '../order/order?id=' + event.currentTarget.dataset.id + '&count=' + this.data.count + '&temp=' + this.data.temp,
+      url: '../order/order?id=' + event.currentTarget.dataset.id + '&count=' + this.data.count + '&spec=' + JSON.stringify(this.data.spec),
     })
   }
 })

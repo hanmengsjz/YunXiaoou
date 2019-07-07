@@ -1,15 +1,16 @@
 <!--pages/user/list/list/list.wxml-->
 <van-tabs swipeable active="{{ index }}" bind:change="onChange" custom-class="bg" color="#ffd200" animated>
   <van-tab title="待付款">
-    <view class='orderInfo' wx:for="{{order}}"  wx:key="idx" wx:for-index="bindex">
+    <view class='orderInfo' wx:for="{{order}}" wx:key="idx" wx:for-index="bindex">
       <view class='OrderHeader'>
         <text class='orderNumber'>订单号：{{item.id}}</text>
         <text class='themeColor stata'>待付款</text>
       </view>
-      <van-card  num="{{data.goods_count}}" tag=""  wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq"
-      thumb="/images/goods1.jpg" title="{{data.goods_name}}" desc="{{data.goods_describe}}" price="{{data.goods_money}}"
-       catchtap="toDetails" data-bindex="{{bindex}}">
-      </van-card>
+      <view wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq">
+        <van-card num="{{data.goods_count}}" thumb="{{data.goods_images}}" title="{{data.goods_name}}" desc="{{data.goods_describes}}" price="{{data.goods_is_discount!=0 && first_order?data.goods_money*data.goods_discount_num:data.goods_money}}" origin-price="{{data.goods_is_discount!=0 && first_order?data.goods_money:''}}"
+          catchtap="toDetails" data-id="{{item.id}}">
+        </van-card>
+      </view>
       <view class='nubInfo'>
         共{{item.count}}件商品 合计：￥{{item.total_money}}
       </view>
@@ -20,58 +21,83 @@
     </view>
   </van-tab>
   <van-tab title="待发货">
-    <view class='orderInfo' wx:for="{{order}}"  wx:key="{{idx}}" wx:for-index="bindex">
+    <view class='orderInfo' wx:for="{{order}}" wx:key="{{idx}}" wx:for-index="bindex">
       <view class='OrderHeader'>
         <text class='orderNumber'>订单号：{{item.id}}</text>
         <text class='red stata'>等待发货</text>
       </view>
-      <van-card  num="{{data.goods_count}}" tag=""  wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq"
-        thumb="/images/goods1.jpg" title="{{data.goods_name}}" desc="{{data.goods_describe}}" price="{{data.goods_money}}"
-        catchtap="toDetails" data-bindex="{{bindex}}">
-      </van-card>
+      <block wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq">
+        <van-card num="{{data.goods_count}}" thumb="{{data.goods_images}}" title="{{data.goods_name}}" desc="{{data.goods_describes}}" price="{{data.goods_is_discount!=0 && first_order?data.goods_money*data.goods_discount_num:data.goods_money}}" origin-price="{{data.goods_is_discount!=0 && first_order?data.goods_money:''}}"
+          catchtap="toDetails" data-id="{{item.id}}">
+        </van-card>
+      </block>
       <view class='nubInfo'>
         共{{item.count}}件商品 合计：￥{{item.total_money}}
       </view>
-      <view class='buts'>
+      <!-- <view class='buts'>
         <button class="but1" bindtap='refund' data-bindex="{{bindex}}">申请退货</button>
-      </view>
+      </view> -->
     </view>
   </van-tab>
-  <van-tab title="待收货">
-    <view class='orderInfo' wx:for="{{order}}"  wx:key="{{idx}}" wx:for-index="bindex">
+  <van-tab title="配送中">
+    <view class='orderInfo' wx:for="{{order}}" wx:key="{{idx}}" wx:for-index="bindex">
       <view class='OrderHeader'>
         <text class='orderNumber'>订单号：{{item.id}}</text>
         <text class='red stata'>等待收货</text>
       </view>
-      <van-card  num="{{data.goods_count}}" tag=""  wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq"
-      thumb="/images/goods1.jpg" title="{{data.goods_name}}" desc="{{data.goods_describe}}" price="{{data.goods_money}}"
-      catchtap="toDetails" data-bindex="{{bindex}}">
-      </van-card>
+      <view wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq">
+        <van-card num="{{data.goods_count}}" thumb="{{data.goods_images}}" title="{{data.goods_name}}" desc="{{data.goods_describes}}" price="{{data.goods_is_discount!=0 && first_order?data.goods_money*data.goods_discount_num:data.goods_money}}" origin-price="{{data.goods_is_discount!=0 && first_order?data.goods_money:''}}"
+          catchtap="toDetails" data-id="{{item.id}}">
+        </van-card>
+      </view>
       <view class='nubInfo'>
         共{{item.count}}件商品 合计：￥{{item.total_money}}
       </view>
       <view class='buts'>
-        <button class='but3'>确认收货</button>
-        <button class="but1" bindtap='refund' data-bindex="{{bindex}}">申请退单</button>
+        <button class='but3' bindtap='confirmReceipt' data-id='{{item.id}}'>确认收货</button>
+        <button class="but1" bindtap='refund' data-type='{{item.type}}' data-bindex="{{bindex}}">申请退单</button>
       </view>
     </view>
   </van-tab>
+  <van-tab title="已完成">
+    <view class='orderInfo' wx:for="{{order}}" wx:key="{{idx}}" wx:for-index="bindex">
+      <view class='OrderHeader'>
+        <text class='orderNumber'>订单号：{{item.id}}</text>
+        <!-- <text class='red stata'>等待收货</text> -->
+      </view>
+      <view wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq">
+        <van-card num="{{data.goods_count}}" thumb="{{data.goods_images}}" title="{{data.goods_name}}" desc="{{data.goods_describes}}" price="{{data.goods_is_discount!=0 && first_order?data.goods_money*data.goods_discount_num:data.goods_money}}" origin-price="{{data.goods_is_discount!=0 && first_order?data.goods_money:''}}"
+          catchtap="toDetails" data-id="{{item.id}}">
+        </van-card>
+      </view>
+      <view class='nubInfo'>
+        共{{item.count}}件商品 合计：￥{{item.total_money}}
+      </view>
+      <!-- <view class='buts'>
+        <button class='but3'>确认收货</button>
+        <button class="but1" bindtap='refund' data-bindex="{{bindex}}">申请退单</button>
+      </view> -->
+    </view>
+  </van-tab>
   <van-tab title="退货/售后">
-    <view class='orderInfo' wx:for="{{order}}"  wx:key="{{idx}}" wx:for-index="bindex">
+    <view class='orderInfo' wx:for="{{order}}" wx:key="{{idx}}" wx:for-index="bindex">
       <view class='OrderHeader'>
         <text class='orderNumber'>订单号：{{item.id}}</text>
         <text class='red stata'>已取消</text>
       </view>
-      <van-card  num="{{data.goods_count}}" tag=""  wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq"
-      thumb="/images/goods1.jpg" title="{{data.goods_name}}" desc="{{data.goods_describe}}" price="{{data.goods_money}}"
-      catchtap="toDetails" data-bindex="{{bindex}}">
-      </van-card>
+      <view wx:for="{{item.orderDetails}}" wx:for-item="data" wx:key="eq">
+        <van-card num="{{data.goods_count}}" thumb="{{data.goods_images}}" title="{{data.goods_name}}" desc="{{data.goods_describes}}" price="{{data.goods_is_discount!=0 && first_order?data.goods_money*data.goods_discount_num:data.goods_money}}" origin-price="{{data.goods_is_discount!=0 && first_order?data.goods_money:''}}"
+          catchtap="toDetails" data-id="{{item.id}}">
+        </van-card>
+      </view>
       <view class='nubInfo'>
         共{{item.count}}件商品 合计：￥{{item.total_money}}
       </view>
     </view>
   </van-tab>
 </van-tabs>
+
+
 <view class='no-data' wx:if="{{order.length == 0}}">
   <image src='/images/no-order.png'></image>
   <view class='info-1'>小主，目前还没有订单</view>
@@ -84,4 +110,4 @@
   没有更多了
 </view>
 <!-- 取消确认弹窗 -->
-<van-dialog id="van-dialog"/>
+<van-dialog id="van-dialog" />

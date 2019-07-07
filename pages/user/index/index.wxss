@@ -1,6 +1,6 @@
 /* pages/Member/index/index.wxss */
 
-.container {
+.con {
   padding: 30rpx;
   box-sizing: border-box;
 }
@@ -10,7 +10,7 @@
   height: 300rpx;
   border-radius: 23rpx;
   position: relative;
-  color: #ffffd4;
+  color: #4e4e4e;
   font-size: 30rpx;
 }
 
@@ -85,6 +85,7 @@
 }
 
 .icoList {
+  position: relative;
   width: 25%;
   height: 180rpx;
   float: left;
@@ -92,6 +93,16 @@
   text-align: center;
   font-size: 32rpx;
   color: #333;
+}
+
+.icoList .dot{
+  position: absolute;
+  right: 10rpx;
+  top:10rpx;
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 50%;
+  background: red
 }
 
 .icoBox .line {
@@ -110,33 +121,8 @@
   height: 100%;
 }
 
-.cellBox {
-  width: 100%;
-  margin: 20rpx 20rpx 0;
-  padding: 20rpx 60rpx;
-  background: #fff;
-}
-
-.cell {
-  border-bottom: 2rpx solid #eaeaea;
-  height: 100rpx;
-  width: 100%;
-}
-
 .cell image {
   width: 36rpx;
   height: 36rpx;
-}
-
-.cell text {
-  font-size: 36rpx;
-  color: #4e4e4e;
-  margin-left: 10rpx;
-  line-height: 100rpx;
-}
-
-.cell .ico {
-  float: right;
-  color: #4e4e4e;
-  line-height: 100rpx;
+  margin: 10rpx;
 }

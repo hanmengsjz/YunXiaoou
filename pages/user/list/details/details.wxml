@@ -1,34 +1,32 @@
 <view style='padding-bottom:100rpx;'>
   <view class='nav-box'>
-  <image src='{{order.orderImg}}' mode='aspectFit'></image>
-  <text>{{order.orderStatus}}</text>
+    <image src='{{order.orderImg}}' mode='aspectFit'></image>
+    <text>{{order.orderStatus}}</text>
   </view>
   <view class='info-box'>
     <view class='addrImg'>
       <image src='/images/details5.png' mode='aspectFit'></image>
     </view>
     <view class='info'>
-      <text class='name'>{{order.name}}</text> 
+      <text class='name'>{{order.name}}</text>
       <text class='tel'>{{order.phone}}</text>
       <view class='addr'>{{order.address}}</view>
     </view>
   </view>
-  <van-card wx:for="{{order.orderDetails}}" wx:key="index"
-    num="{{item.goods_count}}" tag="" thumb="/images/goods1.jpg" title="{{item.goods_name}}" desc="{{item.goods_describe}}"
-    price="{{item.goods_money}}" custom-class="card">
+  <van-card wx:for="{{order.orderDetails}}" wx:key="index" num="{{item.goods_count}}" tag="" thumb="{{item.goods_images}}" title="{{item.goods_name}}" desc="{{item.goods_describes}}" price="{{item.goods_is_discount!=0 && first_order?item.goods_money*item.goods_discount_num:item.goods_money}}" origin-price="{{item.goods_is_discount!=0 && first_order?item.goods_money:''}}" custom-class="card">
   </van-card>
   <view class='row-box'>
     <view class='left'>商品总额：</view>
-    <view class='right'>￥{{ordre.goodsTotal}}</view>
+    <view class='right'>￥{{order.userDiscounts.id ? order.total_money+order.userDiscounts.subtract_money:order.total_money}}</view>
   </view>
   <view class='row-box'>
-    <view class='left'>优惠券：</view>
-    <view class='right'>￥{{order.total_money}}</view>
+    <view class='left'>优惠金额：</view>
+    <view class='right'>￥{{order.userDiscounts.subtract_money ? order.userDiscounts.subtract_money : 0}}</view>
   </view>
   <view class='cccbg'></view>
   <view class='row-box'>
     <view class='left'>总计：</view>
-    <view class='right'>￥{{order.total_money}}</view>
+    <view class='right'>￥{{order.total_money - (order.discounts.subtract_money ? order.discounts.subtract_money : 0)}}</view>
   </view>
   <view class='row-box2'>
     <view class='left'>订单编号：</view>
@@ -38,22 +36,23 @@
     <view class='left'>订单时间：</view>
     <view class='right'>{{order.time}}</view>
   </view>
+  <van-steps steps="{{ express }}" active="0" direction="vertical"/>
 </view>
 <view class='footer'>
   <view wx:if="{{order.status==0}}">
-    <button class='but1'>付款</button>
+    <button class='but1' bindtap='payment'>付款</button>
     <button class='but2' bindtap='cancel'>取消订单</button>
   </view>
   <view wx:elif="{{order.status==1}}">
-    <button class='but3'>申请退货</button>
+    <!-- <button class='but3'>申请退货</button> -->
   </view>
   <view wx:elif="{{order.status==2}}">
-    <button class='but1'>确定收货</button>
-    
+    <!-- <button class='but1'>确定收货</button> -->
+
   </view>
   <view wx:elif="{{order.status==3}}">
-    <button class='but2'>删除订单</button>
+    <!-- <button class='but2'>删除订单</button> -->
   </view>
 </view>
 <!-- 取消确认弹窗 -->
-<van-dialog id="van-dialog"/>
+<van-dialog id="van-dialog" />

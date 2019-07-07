@@ -7,16 +7,30 @@ Page({
     selectArr: [],
     allsel: false,
     total: 0,
-    businessTime: true
+    businessTime: true,
+    first_order: false
   },
   onShow(event) {
-    if (app.globalData.currentTime.slice(11, 13) < 11 || app.globalData.currentTime.slice(11, 13) > 22) {
+    wx.getStorage({
+      key: 'userId',
+      success(res) {
+        app.globalData.userId = res.data
+      }
+    })
+    if (app.globalData.currentTime.slice(11, 13) < JSON.parse(wx.getStorageSync('bussiness_time')).data.start_time || app.globalData.currentTime.slice(11, 13) >= JSON.parse(wx.getStorageSync('bussiness_time')).data.end_time) {
       this.setData({
         businessTime: false
+      })
+    } else {
+      this.setData({
+        businessTime: true
       })
     }
     this.listData();
     this.total();
+    this.setData({
+      first_order: wx.getStorageSync('first_order') == 0
+    })
   },
   listData() {
     app.showMsg('加载中');
@@ -25,10 +39,9 @@ Page({
       method: 'post',
       header: app.globalData.header,
       data: {
-        UserId: app.globalData.userInfo.userId
+        UserId: wx.getStorageSync('userId')
       },
       success: (res) => {
-        console.log(res)
         this.setData({
           shopcarData: res.data.data
         })
@@ -38,8 +51,7 @@ Page({
     })
   },
   numChange(event) {
-    app.showMsg('加载中');
-    console.log(event);
+    app.showMsg('加载中')
     let count = null
     if (event.type == 'plus') {
       count = 1
@@ -51,9 +63,11 @@ Page({
       method: 'post',
       header: app.globalData.header,
       data: {
-        user_id: app.globalData.userInfo.userId,
+        user_id: wx.getStorageSync('userId'),
         goods_id: event.currentTarget.dataset.id,
-        conut: count
+        conut: count,
+        specification_id: event.currentTarget.dataset.sid,
+        specification_name: event.currentTarget.dataset.sname,
       },
       success: (res) => {
         this.listData();
@@ -63,11 +77,9 @@ Page({
     })
   },
   deleteGoods(event) {
-    console.log(event)
     wx.showActionSheet({
       itemList: ['确认'],
       success: (res) => {
-        console.log(res.tapIndex)
         if (res.tapIndex == 0) {
           wx.request({
             url: e.serverurl + 'shoppingTrolley/delete.action',
@@ -77,7 +89,6 @@ Page({
               id: event.currentTarget.dataset.id
             },
             success: (res) => {
-              console.log(res)
               wx.showToast({
                 title: '删除成功',
                 icon: 'success',
@@ -91,20 +102,16 @@ Page({
           })
         }
       },
-      fail(res) {
-        console.log(res.errMsg)
-      }
+      fail(res) {}
     })
 
   },
   goDetail(event) {
-    console.log(event)
     wx.navigateTo({
       url: '../../index/detail/detail?id=' + event.currentTarget.dataset.id,
     })
   },
   onSelect(event) {
-    console.log(event);
     this.setData({
       selectArr: event.detail
     });
@@ -129,7 +136,6 @@ Page({
       })
     }
     this.total();
-    console.log(this.data.selectArr)
   },
   allsel() {
     if (this.data.selectArr.length == this.data.shopcarData.length) {
@@ -143,13 +149,15 @@ Page({
     }
   },
   total() {
-    console.log(this.data.selectArr)
     let tempTotal = 0
     for (let i = 0; i < this.data.selectArr.length; i++) {
-      console.log(i)
       for (let n = 0; n < this.data.shopcarData.length; n++) {
         if (this.data.selectArr[i] == this.data.shopcarData[n].id) {
-          tempTotal += this.data.shopcarData[n].conut * this.data.shopcarData[n].goods.money
+          if (this.data.first_order && this.data.shopcarData[n].goods.is_discount != 0) {
+            tempTotal += (this.data.shopcarData[n].conut - 1) * this.data.shopcarData[n].goods.money + this.data.shopcarData[n].goods.money * this.data.shopcarData[n].goods.discount_num
+          } else {
+            tempTotal += this.data.shopcarData[n].conut * this.data.shopcarData[n].goods.money
+          }
         }
       }
     }
@@ -158,7 +166,6 @@ Page({
     })
   },
   submit(event) {
-    console.log(event)
     if (this.data.businessTime) {
       if (this.data.selectArr.length == 0) {
         wx.showToast({
@@ -171,9 +178,21 @@ Page({
           url: '../order/order?arr=' + this.data.selectArr,
         })
       }
-
     } else {
       app.showError()
     }
+  },
+  onPullDownRefresh: function() {
+    this.onShow()
+    setTimeout(() => {
+      app.hideMsg()
+      wx.stopPullDownRefresh() //停止下拉刷新
+    }, 500)
+  },
+  onHide(){
+    this.setData({
+      selectArr:[],
+      allsel: false
+    })
   }
 })

@@ -2,6 +2,7 @@
   "usingComponents": {
     "van-icon": "/dist/icon/index",
     "van-popup": "/dist/popup/index",
-    "van-stepper": "/dist/stepper/index"
+    "van-stepper": "/dist/stepper/index",
+    "public-footer": "/components/footer/footer"
   }
 }

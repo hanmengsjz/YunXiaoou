@@ -6,22 +6,23 @@ Page({
 
   /* 页面的初始数据 */
   data: {
-    order:{},
-    index:0,
-    limit:3
+    order: {},
+    index: 0,
+    limit: 3,
+    businessTime: true,
+    first_order: false
   },
-
   /* 生命周期函数--监听页面加载 */
-  onLoad: function (options) {
-    console.log(app)
+  onLoad: function(options) {
     wx.request({
-      url: e.serverurl + 'frontOrder/findOrder.action', 
+      url: e.serverurl + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
-        userId: app.globalData.userInfo.userId,
+        userId: wx.getStorageSync('userId'),
         status: options.index ? options.index : 0,
-        limit:3
+        appid: e.appid,
+        limit: 3
       },
       success: (res) => {
         this.setData({
@@ -30,9 +31,21 @@ Page({
           limit: 3
         })
       },
-      fail: function () {
-        console.log('系统错误')
-      }
+      fail: function() {}
+    })
+  },
+  onShow() {
+    if (app.globalData.currentTime.slice(11, 13) < JSON.parse(wx.getStorageSync('bussiness_time')).data.start_time || app.globalData.currentTime.slice(11, 13) >= JSON.parse(wx.getStorageSync('bussiness_time')).data.end_time) {
+      this.setData({
+        businessTime: false
+      })
+    } else {
+      this.setData({
+        businessTime: true
+      })
+    }
+    this.setData({
+      first_order: wx.getStorageSync('first_order') == 0
     })
   },
   /* 标签切换的时候 */
@@ -42,8 +55,9 @@ Page({
       method: 'POST',
       header: app.globalData.header,
       data: {
-        userId: app.globalData.userInfo.userId,
+        userId: wx.getStorageSync('userId'),
         status: event.detail.index,
+        appid: e.appid,
         limit: 3
       },
       success: (res) => {
@@ -53,21 +67,62 @@ Page({
           limit: 3
         })
       },
-      fail: function () {
-        console.log('系统错误')
-      }
+      fail: function() {}
     })
   },
   /* 进入订单详情页面 */
-  toDetails (event){
-    var orders = this.data.order[event.target.dataset.bindex];
-    console.log(JSON.stringify(orders))
+  toDetails(event) {
     wx.navigateTo({
-      url: '../details/details?orders=' + JSON.stringify(orders) + '',
+      url: '../details/details?id=' + event.currentTarget.dataset.id,
     })
   },
+  confirmReceipt(event){
+    wx.showModal({
+      title: '提示',
+      content: '是否确认收货',
+      success:(res)=> {
+        if (res.confirm) {
+          wx.request({
+            url: e.serverurl + 'frontOrder/updateToStatus.action',
+            method: 'POST',
+            header: app.globalData.header,
+            data: {
+              status: 3,
+              id: event.target.dataset.id
+            },
+            success: (res) => {
+              /* 刷新页面 */
+              wx.request({
+                url: e.serverurl + 'frontOrder/findOrder.action',
+                method: 'POST',
+                header: app.globalData.header,
+                data: {
+                  userId: wx.getStorageSync('userId'),
+                  status: this.data.index,
+                  appid: e.appid,
+                  limit: this.data.limit
+                },
+                success: (res) => {
+                  this.setData({
+                    order: res.data.data,
+                    index: this.data.index,
+                    limit: this.data.limit - 1
+                  })
+                },
+                fail: function () { }
+              })
+            },
+            fail: function () { }
+          })
+        } else if (res.cancel) {
+        }
+      }
+    })
+
+ 
+  },
   /* 取消删除订单 */
-  cancel (event){ 
+  cancel(event) {
     Dialog.confirm({
       message: '确认取消订单吗'
     }).then(() => {
@@ -76,7 +131,7 @@ Page({
         method: 'POST',
         header: app.globalData.header,
         data: {
-          userid: app.globalData.userInfo.userId,
+          userid: wx.getStorageSync('userId'),
           id: event.target.dataset.id
         },
         success: (res) => {
@@ -86,91 +141,101 @@ Page({
             method: 'POST',
             header: app.globalData.header,
             data: {
-              userId: app.globalData.userInfo.userId,
+              userId: wx.getStorageSync('userId'),
               status: this.data.index,
+              appid: e.appid,
               limit: this.data.limit
             },
             success: (res) => {
               this.setData({
                 order: res.data.data,
                 index: this.data.index,
-                limit:this.data.limit-1
+                limit: this.data.limit - 1
               })
             },
-            fail: function () {
-              console.log('系统错误')
-            }
+            fail: function() {}
           })
         },
-        fail: function () {
-          console.log('系统错误')
-        }
+        fail: function() {}
       })
     }).catch(() => {
       // on cancel
     });
   },
-  payment(event){
-    var orders = this.data.order[event.target.dataset.bindex];
-    console.log(orders.id)
-    wx.request({
-      url: e.serverurl + 'weixin/wxPay.action',
-      method: 'POST',
-      header: app.globalData.header,
-      data: {
-        openid: wx.getStorageSync("openId"),
-        id: JSON.stringify(orders.id),
-        total_money: JSON.stringify(orders.total_money*100),
-        ids: orders.id,
-        status:1
-      },
-      success: (res) => {
-        console.log(res)
-        wx.requestPayment({
-          timeStamp: res.data.data.timeStamp,
-          nonceStr: res.data.data.nonceStr,
-          package: res.data.data.package,
-          signType: "MD5",
-          paySign: res.data.data.paySign,
-          success: (data) => {
-            console.log(data);
-            wx.showToast({
-              title: '支付成功',
-              icon: 'success',
-              duration: 2000
-            });
-          },
-          fail: function (error){
-            // fail   
-            console.log("支付失败")
-            wx.showToast({
-              title: '支付失败',
-              icon: 'none',
-              duration: 2000
-            });
-            console.log(error)
-          },
-          complete: function (complete) {
-            console.log(complete)
+  payment(event) {
+    if (this.data.businessTime) {
+      var orders = this.data.order[event.target.dataset.bindex];
+      wx.request({
+        url: e.serverurl + 'weixin/wxPay.action',
+        method: 'POST',
+        header: app.globalData.header,
+        data: {
+          openid: wx.getStorageSync("openId"),
+          id: JSON.stringify(orders.id),
+          total_money: JSON.stringify(orders.total_money * 100),
+          ids: orders.id,
+          status: 1,
+          appid: e.appid
+        },
+        success: (res) => {
+          if (res.data.success) {
+            wx.requestPayment({
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.package,
+              signType: "MD5",
+              paySign: res.data.data.paySign,
+              success: (data) => {
+                wx.showToast({
+                  title: '支付成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+              },
+              fail: function(error) {
+                wx.showToast({
+                  title: '支付失败',
+                  icon: 'none',
+                  duration: 2000
+                });
+              },
+              complete: function(complete) {
+
+              }
+            })
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: res.data.msg,
+              success(res) {
+                if (res.confirm) {
+                } else if (res.cancel) {
+                }
+              }
+            })
           }
-        })
-      },
-      fail: function () {
-        console.log('系统错误')
-      }
-    })
+        },
+        fail: function() {
+
+        }
+      })
+
+    } else {
+      app.showError()
+    }
+
   },
   /* 点击加载更多 */
-  loadMore(event){
-    
+  loadMore(event) {
     this.data.limit = this.data.limit + 3;
     wx.request({
       url: e.serverurl + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
-        userId: app.globalData.userInfo.userId,
+        userId: wx.getStorageSync('userId'),
         status: this.data.index,
+        appid: e.appid,
         limit: this.data.limit
       },
       success: (res) => {
@@ -180,59 +245,68 @@ Page({
           limit: this.data.limit
         })
       },
-      fail: function () {
-        console.log('系统错误')
-      }
+      fail: function() {}
     })
   },
   /* 申请退款 */
-  refund: function (event) {
+  refund: function(event) {
     var order = this.data.order[event.target.dataset.bindex];
     var self = this;
-    console.log(event)
-    Dialog.confirm({
-      message: '确认退款吗'
-    }).then(() => {
-      wx.request({
-        url: e.serverurl + 'frontOrder/updateToOrderStatus.action',
-        method: 'POST',
-        header: app.globalData.header,
-        data: {
-          id:order.id,
-          status:4
-        },
-        success: function () {
-          /* 刷新页面 */
-          wx.request({
-            url: e.serverurl + 'frontOrder/findOrder.action',
-            method: 'POST',
-            header: app.globalData.header,
-            data: {
-              userId: app.globalData.userInfo.userId,
-              status: self.data.index,
-              limit: self.data.limit
-            },
-            success: (res) => {
-              
-              self.setData({
-                order: res.data.data,
-                index: self.data.index,
-                limit: self.data.limit - 1
-              })
-            },
-            fail: function () {
-              console.log('系统错误')
-            }
-          })
-        },
-        fail: function (error) {
-          console.log("失败")
-          console.log(error)
-        }
-      })
+    if (event.target.dataset.type===1){
+      Dialog.confirm({
+        message: '确认申请退款吗'
+      }).then(() => {
+        wx.request({
+          url: e.serverurl + 'frontOrder/updateToOrderStatus.action',
+          method: 'POST',
+          header: app.globalData.header,
+          data: {
+            id: order.id,
+            status: 4
+          },
+          success: function () {
+            /* 刷新页面 */
+            wx.request({
+              url: e.serverurl + 'frontOrder/findOrder.action',
+              method: 'POST',
+              header: app.globalData.header,
+              data: {
+                userId: wx.getStorageSync('userId'),
+                status: self.data.index,
+                appid: e.appid,
+                limit: self.data.limit
+              },
+              success: (res) => {
 
-    }).catch(() => {
-      // on cancel
-    });
+                self.setData({
+                  order: res.data.data,
+                  index: self.data.index,
+                  limit: self.data.limit - 1
+                })
+              },
+              fail: function () {
+
+              }
+            })
+          },
+          fail: function (error) {
+
+          }
+        })
+
+      }).catch(() => {
+        // on cancel
+      });
+    } else if (event.target.dataset.type === 2){
+      Dialog.confirm({
+        message: '余额支付不支持退款'
+      }).then(() => {
+        
+
+      }).catch(() => {
+        // on cancel
+      });
+    }
+
   }
 })

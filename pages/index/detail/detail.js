@@ -7,24 +7,19 @@ Page({
    * 页面的初始数据
    */
   data: {
-    temp: 2,
+    spec: {},
     count: 1,
     detailData: {},
     goodsImg: [],
-    businessTime: true
+    businessTime: true,
+    first_order: false
   },
   temp(event) {
-    if (event.target.dataset.temp) {
+    if (event.target.dataset.spec) {
       this.setData({
-        temp: event.target.dataset.temp
+        spec: event.target.dataset.spec
       })
     }
-  },
-  onChange(event) {
-    wx.showToast({
-      icon: 'none',
-      title: `当前值：${event.detail}`
-    });
   },
   numChange(event) {
     this.setData({
@@ -33,19 +28,18 @@ Page({
   },
   addCar(event) {
     app.showMsg('加载中');
-    console.log(event);
     wx.request({
       url: e.serverurl + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {
-        user_id: app.globalData.userInfo.userId,
+        user_id: wx.getStorageSync('userId'),
         goods_id: event.currentTarget.dataset.id,
         conut: this.data.count,
-        lced: this.data.temp == 1 ? this.data.count : this.data.temp == 2 ? 0 : Math.floor(this.data.count / 2)
+        specification_id: this.data.spec.specification_id,
+        specification_name: this.data.spec.specification_name,
       },
       success: (res) => {
-        console.log(res)
         wx.showToast({
           title: '加入购物车成功',
           icon: 'success',
@@ -55,12 +49,6 @@ Page({
     })
   },
   onLoad: function(event) {
-    if (app.globalData.currentTime.slice(11, 13) < 11 || app.globalData.currentTime.slice(11, 13) > 22) {
-      this.setData({
-        businessTime: false
-      })
-    }
-    console.log(event)
     app.showMsg('加载中')
     wx.request({
       url: e.serverurl + 'goodsFront/getById.action',
@@ -70,19 +58,33 @@ Page({
       },
       header: app.globalData.header,
       success: (res) => {
-        console.log(res)
         this.setData({
           detailData: res.data.data,
-          goodsImg: res.data.data.goodsImages
+          goodsImg: res.data.data.goodsImages,
+          spec: res.data.data.specificationGood[0]
         })
         app.hideMsg()
       }
     })
   },
+  onShow() {
+    if (app.globalData.currentTime.slice(11, 13) < JSON.parse(wx.getStorageSync('bussiness_time')).data.start_time || app.globalData.currentTime.slice(11, 13) >= JSON.parse(wx.getStorageSync('bussiness_time')).data.end_time) {
+      this.setData({
+        businessTime: false
+      })
+    } else {
+      this.setData({
+        businessTime: true
+      })
+    }
+    this.setData({
+      first_order: wx.getStorageSync('first_order') == 0
+    })
+  },
   buyNow() {
     if (this.data.businessTime) {
       wx.navigateTo({
-        url: '../../car/order/order',
+        url: '../order/order?id=' + this.data.detailData.id + '&count=' + this.data.count + '&spec=' + JSON.stringify(this.data.spec),
       })
     } else {
       app.showError()
