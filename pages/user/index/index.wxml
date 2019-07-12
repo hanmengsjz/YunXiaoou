@@ -63,4 +63,5 @@
     <image slot='icon' src='/images/friend.png' mode='aspectFill'></image>
   </van-cell>
 </van-cell-group>
+<tab-bar index="3"></tab-bar>
 <public-footer></public-footer>

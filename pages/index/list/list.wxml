@@ -1,31 +1,38 @@
 <!--pages/index/list/list.wxml-->
-<view class='recommend'>
-  <view class='goods-box'>
-    <view class='goods' wx:for="{{listData}}" wx:key="{{index}}">
-      <image mode='widthFix' src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
-      <text class='name'>{{item.name}}</text>
-      <text class='info'>{{item.describes}}</text>
-      <view class='buy'>
-        <block wx:if='{{item.is_discount!=0 && first_order}}'>
-          <text class='price'>￥{{item.money*item.discount_num}}</text>
-          <text class='old-price'>￥{{item.money}}</text>
-        </block>
-        <block wx:else>
-          <text class='price'>￥{{item.money}}</text>
-        </block>
-        <view class='car' catchtap="showPop" data-index='{{index}}' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
-          <van-icon name="shopping-cart" color="#FFFFFF"  />
+<view class="cont">
+  <van-badge-group wx:if="{{tabData.length>0}}" custom-class="side-bar" active="{{activeTab}}">
+    <van-badge wx:for="{{tabData}}" wx:key="{{item.id}}" title="{{item.name}}" bind:click="getGoods" data-id="{{item.id}}" />
+  </van-badge-group>
+  <view class='recommend'>
+    <view class='goods-box'>
+      <view class='goods' wx:for="{{listData}}" wx:key="{{index}}">
+        <image mode='widthFix' src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
+        <view class='name'>{{item.name}}</view>
+        <view class='info'>{{item.describes}}</view>
+        <view class='buy'>
+          <block wx:if='{{item.is_discount!=0 && first_order}}'>
+            <view class='price'>￥{{item.money*item.discount_num}}</view>
+            <view class='old-price'>￥{{item.money}}</view>
+          </block>
+          <block wx:else>
+            <view class='price'>￥{{item.money}}</view>
+          </block>
+          <view class='car' catchtap="showPop" data-index='{{index}}' style='background: {{businessTime ? "#f30002" : "#ccc"}}'>
+            <van-icon name="shopping-cart" color="#FFFFFF" />
+          </view>
         </view>
       </view>
     </view>
-  </view>
-  <view class='no-data' wx:if="{{listData.length == 0}}">
-    <image mode='widthFix' src='/images/no-data.png'></image>
-    <view class='info-1'>小主，目前还没有更新产品</view>
-    <view class='info-2'>快去逛逛其它吧！</view>
+    <view class='no-data' wx:if="{{listData.length == 0}}">
+      <image mode='widthFix' src='/images/no-data.png'></image>
+      <view class='info-1'>小主，目前还没有更新产品</view>
+      <view class='info-2'>快去逛逛其它吧！</view>
+    </view>
   </view>
 </view>
+
 <public-footer></public-footer>
+
 <van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
   <view class='pop-main'>
     <view class='info'>

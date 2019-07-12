@@ -9,36 +9,43 @@ Page({
     listData: [],
     popData: {},
     businessTime: true,
-    first_order: false
+    first_order: false,
+    activeTab: 0,
+    tabData: [],
+    typeId: null
   },
   onLoad(event) {
     app.showMsg('加载中')
     if (event.type) {
       wx.request({
-        url: e.serverurl + 'goodsFront/listByType.action',
+        url: e.url + 'goodsFront/listByAppId.action',
         method: 'post',
         header: app.globalData.header,
         data: {
-          type: event.type,
-          limit: 100,
-          appid:e.appid
+          pid: event.type,
+          appid: e.appid,
+          limit: 100
         },
         success: (res) => {
           this.setData({
-            listData: res.data.data
+            tabData: res.data.data,
+            typeId: event.type
+          })
+          this.getGoods({
+            detail: 0
           })
           app.hideMsg()
         }
       })
     } else if (event.search) {
       wx.request({
-        url: e.serverurl + 'goodsFront/listGoodsByName.action',
+        url: e.url + 'goodsFront/listGoodsByName.action',
         method: 'post',
         header: app.globalData.header,
         data: {
           name: event.search,
           limit: 100,
-          appid:e.appid
+          appid: e.appid
         },
         success: (res) => {
           this.setData({
@@ -49,7 +56,27 @@ Page({
       })
     }
   },
-  onShow(){
+  getGoods(event) {
+    app.showMsg('加载中')
+    console.log(event)
+    wx.request({
+      url: e.url + 'goodsFront/listByType.action',
+      method: 'post',
+      header: app.globalData.header,
+      data: {
+        type: this.data.tabData[event.detail * 1].id,
+        limit: 100,
+        appid: e.appid
+      },
+      success: (res) => {
+        this.setData({
+          listData: res.data.data
+        })
+        app.hideMsg()
+      }
+    })
+  },
+  onShow() {
     this.setData({
       first_order: wx.getStorageSync('first_order') == 0
     })
@@ -102,7 +129,7 @@ Page({
   addCar(event) {
     app.showMsg('加载中');
     wx.request({
-      url: e.serverurl + 'shoppingTrolley/edit.action',
+      url: e.url + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {

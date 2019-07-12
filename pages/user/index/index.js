@@ -60,7 +60,7 @@ Page({
   },
   getCounpon(){
     wx.request({
-      url: e.serverurl + 'mine/getDiscountsByUserId.action',
+      url: e.url + 'mine/getDiscountsByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -78,7 +78,7 @@ Page({
   },
   checkDot(status) {
     wx.request({
-      url: e.serverurl + 'frontOrder/findOrder.action',
+      url: e.url + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {

@@ -2,6 +2,11 @@
 
 page {
   background: #f3f7f7;
+  padding-bottom: 100rpx;
+}
+
+.submit{
+  bottom: 100rpx!important;
 }
 
 .main {

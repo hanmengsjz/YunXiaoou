@@ -16,7 +16,7 @@ Page({
    */
   onLoad: function(options) {
     wx.request({
-      url: e.serverurl + 'friend/quan.action',
+      url: e.url + 'friend/quan.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -35,7 +35,7 @@ Page({
   },
   check(event){
     wx.request({
-      url: e.serverurl + 'friend/sumMoney.action',
+      url: e.url + 'friend/sumMoney.action',
       method: 'post',
       header: app.globalData.header,
       data: {

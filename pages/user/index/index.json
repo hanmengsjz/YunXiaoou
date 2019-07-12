@@ -3,7 +3,8 @@
     "van-icon": "/dist/icon/index",
     "public-footer": "/components/footer/footer",
     "van-cell": "/dist/cell/index",
-    "van-cell-group": "/dist/cell-group/index"
+    "van-cell-group": "/dist/cell-group/index",
+    "tab-bar": "/components/tabbar/tabbar"
   },
   "navigationBarTitleText": "我的",
   "enablePullDownRefresh": true

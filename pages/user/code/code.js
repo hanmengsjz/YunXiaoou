@@ -16,7 +16,7 @@ Page({
    */
   onLoad(event) {
     wx.request({
-      url: e.serverurl + 'twoCode/getTwoCode.action',
+      url: e.url + 'twoCode/getTwoCode.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -30,7 +30,7 @@ Page({
       }
     })
     wx.request({
-      url: e.serverurl + 'frontTwoCodeIntroduce/findByAppId.action',
+      url: e.url + 'frontTwoCodeIntroduce/findByAppId.action',
       method: 'post',
       data:{appid:e.appid},
       header: app.globalData.header,

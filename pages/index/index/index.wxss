@@ -1,5 +1,9 @@
 /**index.wxss**/
 
+page {
+  padding-bottom: 100rpx;
+}
+
 .header {
   position: relative;
   overflow: hidden;
@@ -16,7 +20,7 @@
   height: 40rpx;
   width: 100%;
   border-radius: 50%;
-  background: #48D1Cc;
+  background: #48d1cc;
 }
 
 .swiper {
@@ -38,7 +42,7 @@
 .class {
   display: flex;
   overflow: scroll;
-  background: #48D1Cc;
+  background: #48d1cc;
   box-sizing: border-box;
   flex-wrap: wrap;
 }
@@ -85,7 +89,7 @@
   flex-wrap: wrap;
   padding: 20rpx;
   justify-content: space-around;
-  background: #48D1Cc;
+  background: #48d1cc;
 }
 
 .goods {
@@ -283,8 +287,6 @@
   width: 100%;
 }
 
-/* 客服 */
-
 .kf_button {
   background-color: #fff;
   border: 0;
@@ -293,7 +295,7 @@
   border-radius: 50%;
   box-shadow: 0 0 4rpx 4rpx #ddd;
   right: 20rpx;
-  bottom: 20rpx;
+  bottom: 120rpx;
   position: fixed;
   z-index: 99;
   text-align: center;

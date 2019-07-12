@@ -55,6 +55,7 @@
   <van-icon name="service-o" size="50rpx" color="#000" />
 </button>
 <public-footer></public-footer>
+<tab-bar index="0"></tab-bar>
 
 <van-popup show="{{ showPop }}" position="bottom" bind:close="showPop">
   <view class='pop-main'>

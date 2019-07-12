@@ -1,0 +1,27 @@
+<!--pages/sort/sort.wxml-->
+<van-search class='search' placeholder="搜索您需要的产品……" bind:search="search"></van-search>
+
+<view class="cont">
+  <van-badge-group custom-class="side-bar" active="{{active}}">
+    <van-badge wx:for="{{sort}}" wx:key="{{item.id}}" title="{{item.name}}" bind:click="onChange" data-id="{{item.id}}" />
+  </van-badge-group>
+  <view class='main'>
+    <navigator wx:for="{{selectSort}}" wx:key="{{item.id}}" url="/pages/index/detail/detail?id={{item.id}}">
+      <view class='goods'>
+        <image mode='widthFix' src='{{item.goodsImages[0].url}}' bindtap='goDetail' data-id='{{item.id}}'></image>
+        <view class='name'>{{item.name}}</view>
+        <view class='info'>{{item.describes}}</view>
+        <view class='buy'>
+          <block wx:if='{{item.is_discount!=0 && first_order}}'>
+            <view class='price'>￥{{item.money*item.discount_num}}</view>
+            <view class='old-price'>￥{{item.money}}</view>
+          </block>
+          <block wx:else>
+            <view class='price'>￥{{item.money}}</view>
+          </block>
+        </view>
+      </view>
+    </navigator>
+  </view>
+</view>
+<tab-bar index="1"></tab-bar>

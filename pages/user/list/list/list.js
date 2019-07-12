@@ -15,7 +15,7 @@ Page({
   /* 生命周期函数--监听页面加载 */
   onLoad: function(options) {
     wx.request({
-      url: e.serverurl + 'frontOrder/findOrder.action',
+      url: e.url + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
@@ -51,7 +51,7 @@ Page({
   /* 标签切换的时候 */
   onChange(event) {
     wx.request({
-      url: e.serverurl + 'frontOrder/findOrder.action',
+      url: e.url + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
@@ -83,7 +83,7 @@ Page({
       success:(res)=> {
         if (res.confirm) {
           wx.request({
-            url: e.serverurl + 'frontOrder/updateToStatus.action',
+            url: e.url + 'frontOrder/updateToStatus.action',
             method: 'POST',
             header: app.globalData.header,
             data: {
@@ -93,7 +93,7 @@ Page({
             success: (res) => {
               /* 刷新页面 */
               wx.request({
-                url: e.serverurl + 'frontOrder/findOrder.action',
+                url: e.url + 'frontOrder/findOrder.action',
                 method: 'POST',
                 header: app.globalData.header,
                 data: {
@@ -127,7 +127,7 @@ Page({
       message: '确认取消订单吗'
     }).then(() => {
       wx.request({
-        url: e.serverurl + 'frontOrder/deleteOrder.action',
+        url: e.url + 'frontOrder/deleteOrder.action',
         method: 'POST',
         header: app.globalData.header,
         data: {
@@ -137,7 +137,7 @@ Page({
         success: (res) => {
           /* 刷新页面 */
           wx.request({
-            url: e.serverurl + 'frontOrder/findOrder.action',
+            url: e.url + 'frontOrder/findOrder.action',
             method: 'POST',
             header: app.globalData.header,
             data: {
@@ -166,7 +166,7 @@ Page({
     if (this.data.businessTime) {
       var orders = this.data.order[event.target.dataset.bindex];
       wx.request({
-        url: e.serverurl + 'weixin/wxPay.action',
+        url: e.url + 'weixin/wxPay.action',
         method: 'POST',
         header: app.globalData.header,
         data: {
@@ -229,7 +229,7 @@ Page({
   loadMore(event) {
     this.data.limit = this.data.limit + 3;
     wx.request({
-      url: e.serverurl + 'frontOrder/findOrder.action',
+      url: e.url + 'frontOrder/findOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
@@ -257,7 +257,7 @@ Page({
         message: '确认申请退款吗'
       }).then(() => {
         wx.request({
-          url: e.serverurl + 'frontOrder/updateToOrderStatus.action',
+          url: e.url + 'frontOrder/updateToOrderStatus.action',
           method: 'POST',
           header: app.globalData.header,
           data: {
@@ -267,7 +267,7 @@ Page({
           success: function () {
             /* 刷新页面 */
             wx.request({
-              url: e.serverurl + 'frontOrder/findOrder.action',
+              url: e.url + 'frontOrder/findOrder.action',
               method: 'POST',
               header: app.globalData.header,
               data: {

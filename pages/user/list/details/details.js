@@ -15,7 +15,7 @@ Page({
   /* 生命周期函数--监听页面加载 */
   onLoad(options) {
     wx.request({
-      url: e.serverurl + 'frontOrder/getOrder.action',
+      url: e.url + 'frontOrder/getOrder.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
@@ -51,7 +51,7 @@ Page({
   },
   getExpress(number){
     wx.request({
-      url: e.serverurl + 'Express/getExpressInfo.action',
+      url: e.url + 'Express/getExpressInfo.action',
       method: 'POST',
       header: app.globalData.header,
       data: {number},
@@ -72,7 +72,7 @@ Page({
       message: '确认取消订单吗'
     }).then(() => {
       wx.request({
-        url: e.serverurl + 'frontOrder/deleteOrder.action',
+        url: e.url + 'frontOrder/deleteOrder.action',
         method: 'POST',
         header: app.globalData.header,
         data: {
@@ -97,7 +97,7 @@ Page({
     if (this.data.businessTime) {
       var orders = this.data.order;
       wx.request({
-        url: e.serverurl + 'weixin/wxPay.action',
+        url: e.url + 'weixin/wxPay.action',
         method: 'POST',
         header: app.globalData.header,
         data: {

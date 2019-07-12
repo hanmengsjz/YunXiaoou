@@ -62,7 +62,7 @@ Page({
   },
   getBg(){
     wx.request({
-      url: e.serverurl + 'frontAuthorization/findByAppid.action',
+      url: e.url + 'frontAuthorization/findByAppid.action',
       method: 'post',
       data:{appid:e.appid},
       header: app.globalData.header,
@@ -84,7 +84,7 @@ Page({
             success: function(res) {
               //3.请求自己的服务器，解密用户信息 获取unionId等加密信息  
               wx.request({
-                url: e.serverurl + 'appFrontLogin/decodeUserInfo.action', //自己的服务接口地址  
+                url: e.url + 'appFrontLogin/decodeUserInfo.action', //自己的服务接口地址  
                 method: 'POST',
                 header: {
                   'content-type': 'application/x-www-form-urlencoded'

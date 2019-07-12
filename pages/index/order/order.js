@@ -29,7 +29,7 @@ Page({
     this.setData({})
     app.showMsg('加载中');
     wx.request({
-      url: e.serverurl + 'goodsFront/getById.action',
+      url: e.url + 'goodsFront/getById.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -50,7 +50,7 @@ Page({
       }
     })
     wx.request({
-      url: e.serverurl + 'mine/listtDeliveryAddressByUserId.action',
+      url: e.url + 'mine/listtDeliveryAddressByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -74,7 +74,7 @@ Page({
       }
     })
     wx.request({
-      url: e.serverurl + 'mine/getDiscountsByUserId.action',
+      url: e.url + 'mine/getDiscountsByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -97,7 +97,7 @@ Page({
   },
   getCounpon() {
     wx.request({
-      url: e.serverurl + 'mine/getDiscountsByUserId.action',
+      url: e.url + 'mine/getDiscountsByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -138,7 +138,7 @@ Page({
   order() {
     if (this.data.selectAddress.id) {
       wx.request({
-        url: e.serverurl + 'frontOrder/insertOrder.action',
+        url: e.url + 'frontOrder/insertOrder.action',
         method: 'post',
         header: app.globalData.header,
         data: {
@@ -192,7 +192,7 @@ Page({
   },
   payment(orders) {
     wx.request({
-      url: e.serverurl + 'weixin/wxPay.action',
+      url: e.url + 'weixin/wxPay.action',
       method: 'POST',
       header: app.globalData.header,
       data: {

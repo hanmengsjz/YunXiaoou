@@ -29,7 +29,7 @@ Page({
   addCar(event) {
     app.showMsg('加载中');
     wx.request({
-      url: e.serverurl + 'shoppingTrolley/edit.action',
+      url: e.url + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -51,7 +51,7 @@ Page({
   onLoad: function(event) {
     app.showMsg('加载中')
     wx.request({
-      url: e.serverurl + 'goodsFront/getById.action',
+      url: e.url + 'goodsFront/getById.action',
       method: 'post',
       data: {
         id: event.id

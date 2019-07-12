@@ -1,0 +1,81 @@
+/* pages/sort/sort.wxss */
+
+page {
+  padding-bottom: 100rpx;
+  height: 100%;
+}
+
+.cont {
+  display: flex;
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+  max-height: 100vh;
+  overflow: scroll;
+  background: #48d1cc;
+  padding-bottom: 100rpx;
+}
+
+.goods {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.side-bar {
+  width: 170rpx;
+  min-width: 170rpx;
+}
+
+.goods-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.goods {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 240rpx;
+  max-width: 100%;
+  padding: 20rpx 90rpx;
+  margin: 20rpx 10rpx;
+  background: #fff;
+  border-radius: 20rpx;
+}
+
+.goods image {
+  width: 320rpx;
+  height: 320rpx;
+}
+
+.goods .name {
+  font-size: 32rpx;
+  color: #333;
+}
+
+.goods .info {
+  font-size: 28rpx;
+  color: rgb(85, 81, 81);
+}
+
+.goods .buy {
+  display: flex;
+  justify-content: space-between;
+}
+
+.goods .price {
+  font-size: 38rpx;
+  color: #f30002;
+}
+
+.old-price {
+  font-size: 30rpx;
+  color: #454545;
+  text-decoration: line-through;
+}

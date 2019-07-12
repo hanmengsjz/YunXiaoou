@@ -15,7 +15,8 @@
     "pages/user/list/details/details",
     "pages/car/order/order",
     "pages/index/order/order",
-    "pages/user/friends/friends"
+    "pages/user/friends/friends",
+    "pages/sort/sort"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -28,25 +29,21 @@
     "list": [
       {
         "pagePath": "pages/index/index/index",
-        "text": "首页",
-        "iconPath": "/images/tab/home.png",
-        "selectedIconPath": "/images/tab/selectedHome.png"
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/sort/sort",
+        "text": "分类"
       },
       {
         "pagePath": "pages/car/index/index",
-        "text": "购物车",
-        "iconPath": "/images/tab/car.png",
-        "selectedIconPath": "/images/tab/selectedCar.png"
+        "text": "购物车"
       },
       {
         "pagePath": "pages/user/index/index",
-        "text": "我的",
-        "iconPath": "/images/tab/user.png",
-        "selectedIconPath": "/images/tab/selectedUser.png"
+        "text": "我的"
       }
-    ],
-    "color": "#666666",
-    "selectedColor": "#FFD200"
+    ]
   },
   "permission": {
     "scope.userLocation": {

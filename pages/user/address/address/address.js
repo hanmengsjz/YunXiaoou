@@ -13,7 +13,7 @@ Page({
       radio: event.detail
     })
     wx.request({
-      url: e.serverurl + 'mine/updateDeliveryAddress.action',
+      url: e.url + 'mine/updateDeliveryAddress.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -50,7 +50,7 @@ Page({
       radio: ''
     })
     wx.request({
-      url: e.serverurl + 'mine/listtDeliveryAddressByUserId.action',
+      url: e.url + 'mine/listtDeliveryAddressByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -78,7 +78,7 @@ Page({
         if (res.tapIndex == 0) {
           app.showMsg('加载中')
           wx.request({
-            url: e.serverurl + 'mine/deleteDeliveryAddress.action',
+            url: e.url + 'mine/deleteDeliveryAddress.action',
             method: 'post',
             header: app.globalData.header,
             data: {

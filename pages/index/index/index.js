@@ -16,6 +16,7 @@ Page({
     first_order: false
   },
   onLoad(event) {
+    wx.hideTabBar({})
     app.showMsg('加载中')
     wx.getStorage({
       key: 'userId',
@@ -29,7 +30,7 @@ Page({
     this.getBussiness()
     if (app.globalData.promoter != null) {
       wx.request({
-        url: e.serverurl + 'frontGeneralize/insert.action',
+        url: e.url + 'frontGeneralize/insert.action',
         method: 'post',
         header: app.globalData.header,
         data: {
@@ -43,8 +44,10 @@ Page({
   },
   getGoods() {
     wx.request({
-      url: e.serverurl + 'frontFashion/findAll.action',
-      data:{appid:e.appid},
+      url: e.url + 'frontFashion/findAll.action',
+      data: {
+        appid: e.appid
+      },
       method: 'post',
       header: app.globalData.header,
       success: (res) => {
@@ -71,9 +74,9 @@ Page({
       first_order: wx.getStorageSync('first_order') == 0
     })
   },
-  getBussiness(){
+  getBussiness() {
     wx.request({
-      url: e.serverurl + 'frontBusinessHours/findByAppid.action',
+      url: e.url + 'frontBusinessHours/findByAppid.action',
       method: 'post',
       data: {
         appid: e.appid
@@ -104,7 +107,7 @@ Page({
   },
   checkFirstOrder() {
     wx.request({
-      url: e.serverurl + 'appFrontLogin/findById.action',
+      url: e.url + 'appFrontLogin/findById.action',
       method: 'post',
       data: {
         id: wx.getStorageSync('userId')
@@ -120,9 +123,11 @@ Page({
   },
   getSwiperData() {
     wx.request({
-      url: e.serverurl + 'frontCarousel/findByAppId.action',
+      url: e.url + 'frontCarousel/findByAppId.action',
       method: 'post',
-      data: { appid:e.appid},
+      data: {
+        appid: e.appid
+      },
       header: app.globalData.header,
       success: (res) => {
         this.setData({
@@ -133,8 +138,11 @@ Page({
   },
   getClass() {
     wx.request({
-      url: e.serverurl + 'goodsFront/listByAppId.action',
-      data:{appid:e.appid},
+      url: e.url + 'goodsFront/listByAppId.action',
+      data: {
+        appid: e.appid,
+        pid: 0
+      },
       method: 'post',
       header: app.globalData.header,
       success: (res) => {
@@ -187,7 +195,7 @@ Page({
   addCar(event) {
     app.showMsg('加载中')
     wx.request({
-      url: e.serverurl + 'shoppingTrolley/edit.action',
+      url: e.url + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {

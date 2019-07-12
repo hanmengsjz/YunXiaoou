@@ -3,6 +3,8 @@
     "van-icon": "/dist/icon/index",
     "van-popup": "/dist/popup/index",
     "van-stepper": "/dist/stepper/index",
-    "public-footer": "/components/footer/footer"
+    "public-footer": "/components/footer/footer",
+    "van-badge": "/dist/badge/index",
+    "van-badge-group": "/dist/badge-group/index"
   }
 }

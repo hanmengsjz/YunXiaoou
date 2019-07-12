@@ -33,6 +33,7 @@
   </view>
 </view>
 <public-footer></public-footer>
-<van-submit-bar price="{{ total }}" button-text="结算" bind:submit="submit">
+<tab-bar index="2"></tab-bar>
+<van-submit-bar price="{{ total }}" button-text="结算" bind:submit="submit" custom-class="submit">
   <van-checkbox value="{{ allsel }}" bind:change="onSelectAll" class='all-check' checked-color="#FFD200">全选</van-checkbox>
 </van-submit-bar>

@@ -20,7 +20,7 @@ Page({
       })
     }
     wx.request({
-      url: e.serverurl + 'mine/getDiscountsByUserId.action',
+      url: e.url + 'mine/getDiscountsByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -40,7 +40,7 @@ Page({
   /* 当标签改变时 */
   onChange(event) {
     wx.request({
-      url: e.serverurl + 'mine/getDiscountsByUserId.action',
+      url: e.url + 'mine/getDiscountsByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {

@@ -21,14 +21,14 @@ const shareEvent = (option, id) => {
   return shareObj;
 }
 
-const serverurl = 'http://192.168.1.102:8080/'
+const url = 'http://192.168.1.184:8080/'
 
-const appid = 'wx2967a837dd25acd2'
+const appid = 'wxd9bc574dd5535a31'
 
-//const serverurl = 'https://www.commerce.zhilaicloud.com/'
-//serverurl = 'https://www.drinksmallwine.cn//'
-//serverurl: "http://192.168.1.102:8080/",/*李凯*/
+//const url = 'https://www.commerce.zhilaicloud.com/'
+//url = 'https://www.drinksmallwine.cn//'
+//url: "http://192.168.1.102:8080/",/*李凯*/
 /*韩猛*/
 
-//serverurl: "http://192.168.1.107:8080/", /*自己*/
-module.exports = { serverurl, shareEvent, appid};
+//url: "http://192.168.1.107:8080/", /*自己*/
+module.exports = { url, shareEvent, appid};

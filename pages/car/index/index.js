@@ -35,7 +35,7 @@ Page({
   listData() {
     app.showMsg('加载中');
     wx.request({
-      url: e.serverurl + 'shoppingTrolley/listAllByUserId.action',
+      url: e.url + 'shoppingTrolley/listAllByUserId.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -59,7 +59,7 @@ Page({
       count = -1
     }
     wx.request({
-      url: e.serverurl + 'shoppingTrolley/edit.action',
+      url: e.url + 'shoppingTrolley/edit.action',
       method: 'post',
       header: app.globalData.header,
       data: {
@@ -82,7 +82,7 @@ Page({
       success: (res) => {
         if (res.tapIndex == 0) {
           wx.request({
-            url: e.serverurl + 'shoppingTrolley/delete.action',
+            url: e.url + 'shoppingTrolley/delete.action',
             method: 'post',
             header: app.globalData.header,
             data: {

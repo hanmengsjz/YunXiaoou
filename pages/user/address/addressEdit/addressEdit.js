@@ -84,7 +84,7 @@ Page({
         id: event.id
       })
       wx.request({
-        url: e.serverurl + 'mine/getDeliveryAddressById.action',
+        url: e.url + 'mine/getDeliveryAddressById.action',
         method: 'post',
         header: app.globalData.header,
         data: {
@@ -155,7 +155,7 @@ Page({
         error: {}
       })
       wx.request({
-        url: this.data.id == null ? e.serverurl + 'mine/insertDeliveryAddress.action' : e.serverurl + 'mine/updateDeliveryAddress.action',
+        url: this.data.id == null ? e.url + 'mine/insertDeliveryAddress.action' : e.url + 'mine/updateDeliveryAddress.action',
         method: 'post',
         header: app.globalData.header,
         data: {

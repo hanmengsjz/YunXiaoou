@@ -33,7 +33,7 @@ Page({
    */
   onShow: function(options) {
     wx.request({
-      url: e.serverurl + 'mine/selectById.action',
+      url: e.url + 'mine/selectById.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
@@ -52,7 +52,7 @@ Page({
   },
   getMoney(){
     wx.request({
-      url: e.serverurl + 'frontDeduction/findByUserId.action',
+      url: e.url + 'frontDeduction/findByUserId.action',
       method: 'POST',
       header: app.globalData.header,
       data: {
