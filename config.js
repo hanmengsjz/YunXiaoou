@@ -21,9 +21,9 @@ const shareEvent = (option, id) => {
   return shareObj;
 }
 
-const url = 'http://192.168.1.184:8080/'
+const url = 'http://192.168.1.102:8080/'
 
-const appid = 'wxd9bc574dd5535a31'
+const appid = 'wxb24ea56f10dec071'
 
 //const url = 'https://www.commerce.zhilaicloud.com/'
 //url = 'https://www.drinksmallwine.cn//'
