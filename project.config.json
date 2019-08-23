@@ -25,7 +25,7 @@
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.7.3",
-	"appid": "wxb24ea56f10dec071",
+	"appid": "wx2967a837dd25acd2",
 	"projectname": "%E6%96%B0%E5%BA%97",
 	"debugOptions": {
 		"hidedInDevtools": []
@@ -51,16 +51,8 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
-			"list": [
-				{
-					"id": 0,
-					"name": "扫码",
-					"pathName": "pages/login/login",
-					"query": "",
-					"scene": 1011
-				}
-			]
+			"current": -1,
+			"list": []
 		}
 	}
 }

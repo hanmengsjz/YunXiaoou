@@ -4,7 +4,6 @@
 }
 
 .recommend {
-  margin-top: 10rpx;
   padding: 10rpx 30rpx;
   background: #48d1cc;
   width: 100%;

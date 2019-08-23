@@ -21,8 +21,8 @@ Component({
    // 调到另一个小程序
     another() {
       wx.navigateToMiniProgram({
-        appId: 'wxd9bc574dd5535a31',
-        path: 'pages/index/index/index',
+        appId: 'wxb24ea56f10dec071',
+        path: 'pages/index/indexes/indexes',
         success(res) {
           // 打开成功
         }

@@ -19,6 +19,9 @@ page {
   background: #48d1cc;
   padding-bottom: 100rpx;
 }
+.main navigator{
+  width: 520rpx;
+}
 
 .goods {
   display: flex;

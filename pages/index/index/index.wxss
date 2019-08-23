@@ -300,4 +300,6 @@ page {
   z-index: 99;
   text-align: center;
   line-height: 120rpx;
+  display: flex;
+  justify-content: center;
 }
